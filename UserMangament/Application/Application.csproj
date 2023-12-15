@@ -1,0 +1,88 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Roles\Commands\Create\" />
+    <Folder Include="Features\Roles\Commands\Update\" />
+    <Folder Include="Features\Roles\Dtos\GetList\" />
+    <Folder Include="Features\Roles\Dtos\Get\" />
+    <Folder Include="Features\Roles\Profiles\" />
+    <Folder Include="Features\Roles\Queries\GitList\" />
+    <Folder Include="Features\Roles\Queries\Git\" />
+    <Folder Include="Features\WorkingHour\Commands\Create\" />
+    <Folder Include="Features\WorkingHour\Commands\Update\" />
+    <Folder Include="Features\WorkingHour\Dtos\GetList\" />
+    <Folder Include="Features\WorkingHour\Dtos\Get\" />
+    <Folder Include="Features\WorkingHour\Profiles\" />
+    <Folder Include="Features\WorkingHour\Queries\GitList\" />
+    <Folder Include="Features\WorkingHour\Queries\Git\" />
+    <Folder Include="Features\Salarys\Commands\Create\" />
+    <Folder Include="Features\Salarys\Commands\Update\" />
+    <Folder Include="Features\Salarys\Dtos\GetList\" />
+    <Folder Include="Features\Salarys\Dtos\Get\" />
+    <Folder Include="Features\Salarys\Profiles\" />
+    <Folder Include="Features\Salarys\Queries\GitList\" />
+    <Folder Include="Features\Salarys\Queries\Git\" />
+    <Folder Include="Features\Jobs\Commands\Create\" />
+    <Folder Include="Features\Jobs\Commands\Update\" />
+    <Folder Include="Features\Jobs\Dtos\GetList\" />
+    <Folder Include="Features\Jobs\Dtos\Get\" />
+    <Folder Include="Features\Jobs\Profiles\" />
+    <Folder Include="Features\Jobs\Queries\GitList\" />
+    <Folder Include="Features\Jobs\Queries\Git\" />
+    <Folder Include="Features\HolidaysTypes\Commands\Create\" />
+    <Folder Include="Features\HolidaysTypes\Commands\Update\" />
+    <Folder Include="Features\HolidaysTypes\Dtos\GetList\" />
+    <Folder Include="Features\HolidaysTypes\Dtos\Get\" />
+    <Folder Include="Features\HolidaysTypes\Profiles\" />
+    <Folder Include="Features\HolidaysTypes\Queries\GitList\" />
+    <Folder Include="Features\HolidaysTypes\Queries\Git\" />
+    <Folder Include="Features\Employees\Commands\Create\" />
+    <Folder Include="Features\Employees\Commands\Update\" />
+    <Folder Include="Features\Employees\Dtos\GetList\" />
+    <Folder Include="Features\Employees\Dtos\Get\" />
+    <Folder Include="Features\Employees\Profiles\" />
+    <Folder Include="Features\Employees\Queries\GitList\" />
+    <Folder Include="Features\Employees\Queries\Git\" />
+    <Folder Include="Features\EmpHolidaysOrder\Commands\Create\" />
+    <Folder Include="Features\EmpHolidaysOrder\Commands\Update\" />
+    <Folder Include="Features\EmpHolidaysOrder\Dtos\GetList\" />
+    <Folder Include="Features\EmpHolidaysOrder\Dtos\Get\" />
+    <Folder Include="Features\EmpHolidaysOrder\Profiles\" />
+    <Folder Include="Features\EmpHolidaysOrder\Queries\GitList\" />
+    <Folder Include="Features\EmpHolidaysOrder\Queries\Git\" />
+    <Folder Include="Features\Departments\Commands\Create\" />
+    <Folder Include="Features\Departments\Commands\Update\" />
+    <Folder Include="Features\Departments\Profiles\" />
+    <Folder Include="Features\Departments\Queries\GitList\" />
+    <Folder Include="Features\Attendances\Commands\Create\" />
+    <Folder Include="Features\Attendances\Commands\Update\" />
+    <Folder Include="Features\Attendances\Dtos\GetList\" />
+    <Folder Include="Features\Attendances\Dtos\Get\" />
+    <Folder Include="Features\Attendances\Profiles\" />
+    <Folder Include="Features\Attendances\Queries\GitList\" />
+    <Folder Include="Features\Attendances\Queries\Git\" />
+    <Folder Include="Features\Users\Commands\Update\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>
