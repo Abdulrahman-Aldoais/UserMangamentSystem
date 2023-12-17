@@ -59,35 +59,48 @@ namespace UserMangament.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CreatedBy")
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeletedBy")
+                    b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
-
-                    b.Property<string>("DepartmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModifiedBy")
+                    b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2023, 12, 18, 0, 51, 5, 659, DateTimeKind.Local).AddTicks(6640),
+                            IsDeleted = false,
+                            Name = "قسم الاتي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2023, 12, 18, 0, 51, 5, 659, DateTimeKind.Local).AddTicks(6646),
+                            IsDeleted = false,
+                            Name = "  قسم موارد بشرية"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.DepartmentEmployeeCount", b =>
@@ -195,16 +208,13 @@ namespace UserMangament.Persistence.Migrations
                     b.Property<int>("AccountCancellationStatusBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreateBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CreatedBy")
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeletedBy")
+                    b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
 
                     b.Property<int>("DepartmentId")
@@ -230,10 +240,10 @@ namespace UserMangament.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ModifiedBy")
+                    b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -260,6 +270,42 @@ namespace UserMangament.Persistence.Migrations
                     b.HasIndex("WorkingHourId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountCancellationStatusBy = 0,
+                            CreatedDate = new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2407),
+                            DepartmentId = 1,
+                            HireDate = new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2412),
+                            IsActive = true,
+                            IsDeleted = false,
+                            JobDescription = "",
+                            JobId = 1,
+                            JobTitle = "مطور انظمة",
+                            Name = "عبدالرحمن علي سرحان الدعيس",
+                            Phone = "775115810",
+                            Salary = 700000.0,
+                            WorkingHourId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountCancellationStatusBy = 0,
+                            CreatedDate = new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2417),
+                            DepartmentId = 1,
+                            HireDate = new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2419),
+                            IsActive = true,
+                            IsDeleted = false,
+                            JobDescription = "",
+                            JobId = 1,
+                            JobTitle = "مطور انظمة",
+                            Name = "امين حميد اليعري",
+                            Phone = "775115810",
+                            Salary = 700000.0,
+                            WorkingHourId = 3
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Employment_Type", b =>
@@ -281,6 +327,26 @@ namespace UserMangament.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employment_Types");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "دوام الموضفين",
+                            Name = "كلي"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "دوام الموضفين",
+                            Name = "جزئي"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "دوام الموضفين",
+                            Name = "ساعات"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.HolidaysType", b =>
@@ -326,6 +392,26 @@ namespace UserMangament.Persistence.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Jobs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DepartmentId = 1,
+                            Name = "مطور ويب"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DepartmentId = 1,
+                            Name = "تكنولوجيا المعلومات"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DepartmentId = 1,
+                            Name = "مصمم جرافيك"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Role", b =>
@@ -377,13 +463,13 @@ namespace UserMangament.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CreatedBy")
+                    b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeletedBy")
+                    b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
 
                     b.Property<int>("DepartmentId")
@@ -392,10 +478,10 @@ namespace UserMangament.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ModifiedBy")
+                    b.Property<int?>("ModifiedBy")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedDate")
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -470,7 +556,7 @@ namespace UserMangament.Persistence.Migrations
                             Id = 1,
                             AccountCancellationStatusBy = 0,
                             Age = 23,
-                            CreatedDate = new DateTime(2023, 12, 14, 23, 56, 38, 837, DateTimeKind.Local).AddTicks(686),
+                            CreatedDate = new DateTime(2023, 12, 18, 0, 51, 5, 672, DateTimeKind.Local).AddTicks(9455),
                             Email = "abdulrahman@admin.com",
                             IsActive = true,
                             IsDeleted = false,
@@ -499,6 +585,26 @@ namespace UserMangament.Persistence.Migrations
                     b.HasIndex("Employment_TypeId");
 
                     b.ToTable("WorkingHours");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Employment_TypeId = 1,
+                            Hours = 8
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Employment_TypeId = 2,
+                            Hours = 6
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Employment_TypeId = 3,
+                            Hours = 4
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Attendance", b =>

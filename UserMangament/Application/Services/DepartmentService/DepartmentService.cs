@@ -22,12 +22,12 @@ namespace Application.Services.DepartmentService
             {
                 Id = x.Id,
                 Name = x.Name,
-                CreatedBy = x.CreatedBy,
+                CreatedBy = x.CreatedBy.HasValue ? x.CreatedBy.Value : 0,
                 CreatedDate = x.CreatedDate,
-                DeletedBy = x.DeletedBy,
+                DeletedBy = x.DeletedBy.HasValue ? x.DeletedBy.Value : 0,
                 IsDeleted = x.IsDeleted,
-                ModifiedBy = x.ModifiedBy,
-                ModifiedDate = x.ModifiedDate,
+                ModifiedBy = x.ModifiedBy.HasValue ? x.ModifiedBy.Value : 0,
+                ModifiedDate = x.ModifiedDate.HasValue ? x.ModifiedDate.Value : DateTime.MinValue,
 
             }).ToListAsync();
         }

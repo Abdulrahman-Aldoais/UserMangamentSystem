@@ -1,14 +1,15 @@
-﻿namespace School.Domain.Resources
+﻿namespace Domain.Resources
 {
     public static class SharedResourcesKeys
     {
-        public const string Required = "مطلوب";
+        public const string Required = "هذا الحقل مطلوب";
         public const string NotFound = "غير موجود";
         public const string Deleted = "تم الحذف";
-        public const string Created = "تم الإنشاء";
-        public const string Success = "نجاح";
+        public const string Created = "تم نجاح عملية الاضافة";
+        public const string Success = "نجحت العملية";
         public const string NotEmpty = "لا يجب ان يكون فارغ";
-        public const string Updated = "تم التحديث";
+        public const string validateAllExpectedFieldsReceivedInDatabase = " يجب ان يتم إدخال جميع الحقول المتوقع استقبالها في قاعدة البيانات بشكل سليم";
+        public const string Updated = "تم تحديث البيانات بنجاح";
         public const string UnAuthorized = "غير مصرح";
         public const string RangAge = "العمر يجب أن يكون بين 18 و 60";
         public const string BadRequest = "طلب غير صحيح";

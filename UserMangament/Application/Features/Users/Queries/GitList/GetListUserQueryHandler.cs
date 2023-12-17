@@ -1,8 +1,8 @@
 ﻿using Application.Features.Users.Dtos.GetList;
 using Application.Services.UserService;
 using Core.Application.Responses;
+using Domain.Resources;
 using MediatR;
-using School.Domain.Resources;
 
 namespace Application.Features.Users.Queries.GitList
 {

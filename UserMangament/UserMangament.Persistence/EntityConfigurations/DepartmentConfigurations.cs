@@ -12,6 +12,33 @@ namespace UserMangament.Persistence.EntityConfigurations
             builder.HasMany(e => e.Employees).WithOne().OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(e => e.Jobs).WithOne().OnDelete(DeleteBehavior.Restrict);
 
+
+            builder.HasData(
+               new Department
+               {
+                   Id = 1,
+                   Name = "قسم الاتي",
+                   CreatedDate = DateTime.Now,
+                   CreatedBy = null,
+                   DeletedBy = null,
+                   IsDeleted = false,
+                   ModifiedBy = null,
+                   ModifiedDate = null,
+
+               },
+                new Department
+                {
+                    Id = 2,
+                    Name = "  قسم موارد بشرية",
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = null,
+                    DeletedBy = null,
+                    IsDeleted = false,
+                    ModifiedBy = null,
+                    ModifiedDate = null,
+                }
+               );
+
         }
     }
 }

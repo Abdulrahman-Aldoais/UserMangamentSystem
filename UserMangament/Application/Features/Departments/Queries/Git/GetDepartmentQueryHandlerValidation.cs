@@ -1,6 +1,6 @@
 ﻿using Application.Repositories.DepartmentRepository;
+using Domain.Resources;
 using FluentValidation;
-using School.Domain.Resources;
 
 namespace Application.Features.Departments.Queries.Git
 {

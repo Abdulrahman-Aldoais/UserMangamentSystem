@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace UserMangament.Persistence.Migrations
 {
     /// <inheritdoc />
@@ -17,13 +19,12 @@ namespace UserMangament.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    DeletedBy = table.Column<int>(type: "int", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    DeletedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -81,10 +82,10 @@ namespace UserMangament.Persistence.Migrations
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    DeletedBy = table.Column<int>(type: "int", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    DeletedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -187,7 +188,6 @@ namespace UserMangament.Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     AccountCancellationStatusBy = table.Column<int>(type: "int", nullable: false),
-                    CreateBy = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     JobId = table.Column<int>(type: "int", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -198,10 +198,10 @@ namespace UserMangament.Persistence.Migrations
                     WorkingHourId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<int>(type: "int", nullable: false),
-                    ModifiedBy = table.Column<int>(type: "int", nullable: false),
-                    DeletedBy = table.Column<int>(type: "int", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    ModifiedBy = table.Column<int>(type: "int", nullable: true),
+                    DeletedBy = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -337,9 +337,57 @@ namespace UserMangament.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "CreatedBy", "CreatedDate", "DeletedBy", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2023, 12, 18, 0, 51, 5, 659, DateTimeKind.Local).AddTicks(6640), null, false, null, null, "قسم الاتي" },
+                    { 2, null, new DateTime(2023, 12, 18, 0, 51, 5, 659, DateTimeKind.Local).AddTicks(6646), null, false, null, null, "  قسم موارد بشرية" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employment_Types",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "دوام الموضفين", "كلي" },
+                    { 2, "دوام الموضفين", "جزئي" },
+                    { 3, "دوام الموضفين", "ساعات" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AccountCancellationStatusBy", "Age", "CreatedBy", "CreatedDate", "DeletedBy", "Email", "IsActive", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name", "Phone", "UserName" },
-                values: new object[] { 1, 0, 23, null, new DateTime(2023, 12, 14, 23, 56, 38, 837, DateTimeKind.Local).AddTicks(686), null, "abdulrahman@admin.com", true, false, null, null, "عبدالرحمن الدعيس", "775115810", "admin" });
+                values: new object[] { 1, 0, 23, null, new DateTime(2023, 12, 18, 0, 51, 5, 672, DateTimeKind.Local).AddTicks(9455), null, "abdulrahman@admin.com", true, false, null, null, "عبدالرحمن الدعيس", "775115810", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Jobs",
+                columns: new[] { "Id", "DepartmentId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "مطور ويب" },
+                    { 2, 1, "تكنولوجيا المعلومات" },
+                    { 3, 1, "مصمم جرافيك" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "WorkingHours",
+                columns: new[] { "Id", "Employment_TypeId", "Hours" },
+                values: new object[,]
+                {
+                    { 1, 1, 8 },
+                    { 2, 2, 6 },
+                    { 3, 3, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "AccountCancellationStatusBy", "CreatedBy", "CreatedDate", "DeletedBy", "DepartmentId", "HireDate", "IsActive", "IsDeleted", "JobDescription", "JobId", "JobTitle", "ModifiedBy", "ModifiedDate", "Name", "Phone", "Salary", "WorkingHourId" },
+                values: new object[,]
+                {
+                    { 1, 0, null, new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2407), null, 1, new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2412), true, false, "", 1, "مطور انظمة", null, null, "عبدالرحمن علي سرحان الدعيس", "775115810", 700000.0, 3 },
+                    { 2, 0, null, new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2417), null, 1, new DateTime(2023, 12, 18, 0, 51, 5, 667, DateTimeKind.Local).AddTicks(2419), true, false, "", 1, "مطور انظمة", null, null, "امين حميد اليعري", "775115810", 700000.0, 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendance_EmployeeId",

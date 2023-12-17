@@ -1,6 +1,6 @@
 ﻿
 
-using School.Domain.Resources;
+using Domain.Resources;
 
 namespace Core.Application.Responses
 {

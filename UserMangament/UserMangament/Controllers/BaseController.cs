@@ -1,8 +1,8 @@
 ﻿using Core.Application.Responses;
+using Domain.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using School.Domain.Resources;
 using System.Net;
 using UserMangament.Models;
 
@@ -23,29 +23,29 @@ namespace UserMangament.Controllers
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    NotifySuccess(SharedResourcesKeys.Success); // نص الرسالة في حالة النجاح
-                    return await Task.FromResult(value.Invoke()); // استخدام Task.FromResult للحصول على Task<IActionResult>
+                    NotifySuccess(SharedResourcesKeys.Success);
+                    return await Task.FromResult(value.Invoke());
                 case HttpStatusCode.Created:
-                    NotifySuccess(SharedResourcesKeys.Created); // تعديل هنا لنص الرسالة في حالة النجاح
-                    return await Task.FromResult(value.Invoke()); // استخدام Task.FromResult للحصول على Task<IActionResult>
+                    NotifySuccess(SharedResourcesKeys.Created);
+                    return await Task.FromResult(value.Invoke());
                 case HttpStatusCode.Unauthorized:
-                    NotifyError(new List<string> { SharedResourcesKeys.UnAuthorized }); // تعديل هنا لنص الرسالة في حالة الخطأ
+                    NotifyError(response.Errors, SharedResourcesKeys.UnAuthorized);
                     return await Task.FromResult(value.Invoke());
                 case HttpStatusCode.BadRequest:
-                    NotifyError(new List<string> { "Error message" }); // تعديل هنا لنص الرسالة في حالة الخطأ
+                    NotifyError(response.Errors, SharedResourcesKeys.BadRequest);
                     return await Task.FromResult(value.Invoke());
                 case HttpStatusCode.NotFound:
-                    NotifyError(new List<string> { "Error message" }); // تعديل هنا لنص الرسالة في حالة الخطأ
-                    return await Task.FromResult(value.Invoke());
+                    NotifyError(response.Errors, SharedResourcesKeys.NotFound);
+                    return await Task.FromResult(value.Invoke()); ;
                 case HttpStatusCode.Accepted:
-                    NotifySuccess("Success message"); // تعديل هنا لنص الرسالة في حالة النجاح
+                    NotifySuccess("Success message");
                     return await Task.FromResult(value.Invoke());
                 case HttpStatusCode.UnprocessableEntity:
-                    NotifyError(new List<string> { "Error message" }); // تعديل هنا لنص الرسالة في حالة الخطأ
+                    NotifyError(response.Errors, SharedResourcesKeys.UnprocessableEntity);
                     return await Task.FromResult(value.Invoke());
                 default:
-                    NotifyError(new List<string> { "Error message" }); // تعديل هنا لنص الرسالة في حالة الخطأ
-                    return await Task.FromResult(value.Invoke()); // استخدام Task.FromResult للحصول على Task<IActionResult>
+                    NotifyError(response.Errors, SharedResourcesKeys.UserNameIsNotExist);
+                    return await Task.FromResult(value.Invoke());
             }
         }
 
@@ -56,7 +56,7 @@ namespace UserMangament.Controllers
             var msg = new
             {
                 message = successMessage,
-                title = "User Mangament",
+                title = "نظام إدارة المستخدمين - شركة ثروات",
                 icon = NotificationType.success.ToString(),
                 type = NotificationType.success.ToString(),
                 provider = GetProvider()
@@ -65,12 +65,15 @@ namespace UserMangament.Controllers
             TempData["Message"] = JsonConvert.SerializeObject(msg);
         }
 
-        public void NotifyError(List<string> errorMessage)
+
+        public void NotifyError(List<string> errorMessage, string additionalError)
         {
+            errorMessage.Add(additionalError); // إضافة النص المعين إلى القائمة
+
             var msg = new
             {
                 message = JsonConvert.SerializeObject(errorMessage),
-                title = "User Mangament",
+                title = "نظام إدارة المستخدمين - شركة ثروات",
                 icon = NotificationType.error.ToString(),
                 type = NotificationType.error.ToString(),
                 provider = GetProvider()
@@ -78,6 +81,8 @@ namespace UserMangament.Controllers
 
             TempData["Message"] = JsonConvert.SerializeObject(msg);
         }
+
+
 
         private string GetProvider()
         {

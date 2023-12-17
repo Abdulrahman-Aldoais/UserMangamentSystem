@@ -5,7 +5,6 @@
 
         public bool IsActive { get; set; }
         public int AccountCancellationStatusBy { get; set; }
-        public int CreateBy { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
         public int JobId { get; set; }

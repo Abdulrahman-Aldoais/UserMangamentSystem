@@ -42,10 +42,8 @@
     <Folder Include="Features\HolidaysTypes\Profiles\" />
     <Folder Include="Features\HolidaysTypes\Queries\GitList\" />
     <Folder Include="Features\HolidaysTypes\Queries\Git\" />
-    <Folder Include="Features\Employees\Commands\Create\" />
     <Folder Include="Features\Employees\Commands\Update\" />
     <Folder Include="Features\Employees\Dtos\GetList\" />
-    <Folder Include="Features\Employees\Dtos\Get\" />
     <Folder Include="Features\Employees\Profiles\" />
     <Folder Include="Features\Employees\Queries\GitList\" />
     <Folder Include="Features\Employees\Queries\Git\" />
@@ -67,7 +65,6 @@
     <Folder Include="Features\Attendances\Profiles\" />
     <Folder Include="Features\Attendances\Queries\GitList\" />
     <Folder Include="Features\Attendances\Queries\Git\" />
-    <Folder Include="Features\Users\Commands\Update\" />
   </ItemGroup>
 
   <ItemGroup>

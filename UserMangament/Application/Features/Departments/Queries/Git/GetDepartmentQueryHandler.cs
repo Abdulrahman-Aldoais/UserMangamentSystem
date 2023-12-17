@@ -2,8 +2,8 @@
 using Application.Repositories.DepartmentRepository;
 using Application.Services.DepartmentService;
 using Core.Application.Responses;
+using Domain.Resources;
 using MediatR;
-using School.Domain.Resources;
 
 namespace Application.Features.Departments.Queries.Git
 {

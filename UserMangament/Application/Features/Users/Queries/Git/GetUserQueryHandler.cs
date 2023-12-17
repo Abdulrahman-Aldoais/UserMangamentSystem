@@ -2,8 +2,8 @@
 using Application.Repositories.UserRepository;
 using Application.Services.UserService;
 using Core.Application.Responses;
+using Domain.Resources;
 using MediatR;
-using School.Domain.Resources;
 
 namespace Application.Features.Users.Queries.Git
 {
@@ -21,7 +21,7 @@ namespace Application.Features.Users.Queries.Git
             var respons = new BaseCommandResponse<GetUserOutput>();
             var validator = new GetUserQueryHandlerValidation(_userReadRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validatorResult.IsValid)
+            if (!validatorResult.IsValid)
             {
                 respons.Data = null;
                 respons.Success = false;

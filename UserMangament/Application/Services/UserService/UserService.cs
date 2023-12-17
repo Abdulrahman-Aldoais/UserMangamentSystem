@@ -11,15 +11,18 @@ namespace Application.Services.UserService
     {
         public string UserId { get; }
         private readonly IUserReadRepository _userReadRepository;
+        private readonly IUserWriteRepository _userWriteRepository;
 
         private readonly IMapper _mapper;
         public UserService(
             IUserReadRepository userReadRepository,
-            IMapper mapper
+            IMapper mapper,
+            IUserWriteRepository userWriteRepository
             )
         {
             _userReadRepository = userReadRepository;
             _mapper = mapper;
+            _userWriteRepository = userWriteRepository;
         }
         public async Task<List<GetListUserOutput>> GetAllUserAsync()
         {
@@ -39,8 +42,6 @@ namespace Application.Services.UserService
 
             }).ToListAsync();
 
-            //var mapp = _mapper.Map<GetUserListOutput>( allUsers );
-            // return mapp;
         }
 
         public async Task<GetUserOutput> GetUserByIdAsync(int id)
@@ -50,9 +51,35 @@ namespace Application.Services.UserService
             return mappUserFromEintityToDto;
         }
 
-        public Task<string> AddNewUserAsync(User user)
+        public async Task<string> AddNewUserAsync(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _userWriteRepository.AddAsync(user);
+                return "Success";
+            }
+            catch (Exception)
+            {
+                return "Failed";
+                //throw ex;
+            }
+
         }
+
+        public async Task<string> UpdateInformationUser(User user)
+        {
+            try
+            {
+                await _userWriteRepository.UpdateAsync(user);
+                return "Success";
+            }
+            catch (Exception)
+            {
+                return "Failed";
+                throw;
+            }
+        }
+
+
     }
 }

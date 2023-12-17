@@ -1,7 +1,11 @@
-﻿using Application.Repositories.UserRepository;
+﻿using Application.Repositories.DepartmentRepository;
+using Application.Repositories.EmployeeRepositoty;
+using Application.Repositories.UserRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UserMangament.Persistence.Contexts;
+using UserMangament.Persistence.Repositories.DepartmentRepository;
+using UserMangament.Persistence.Repositories.EmployeeRepository;
 using UserMangament.Persistence.Repositories.UserRepository;
 
 namespace UserMangament.Persistence
@@ -23,6 +27,10 @@ namespace UserMangament.Persistence
 
                 services.AddScoped<IUserReadRepository, UserReadRepository>();
                 services.AddScoped<IUserWriteRepository, UserWriteRepository>();
+                services.AddScoped<IDepartmentWriteRepository, DepartmentWriteRepository>();
+                services.AddScoped<IDepartmentReadRepository, DepartmentReadRepository>();
+                services.AddScoped<IEmployeeReadRepositoty, EmployeeReadRepository>();
+                services.AddScoped<IEmployeeWriteRepositoty, EmployeeWriteRepository>();
 
 
                 return services;
