@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities
 {
-    public class Job
+    public class Job:BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

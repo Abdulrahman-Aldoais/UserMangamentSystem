@@ -30,10 +30,6 @@
     <Folder Include="Features\Salarys\Queries\Git\" />
     <Folder Include="Features\Jobs\Commands\Create\" />
     <Folder Include="Features\Jobs\Commands\Update\" />
-    <Folder Include="Features\Jobs\Dtos\GetList\" />
-    <Folder Include="Features\Jobs\Dtos\Get\" />
-    <Folder Include="Features\Jobs\Profiles\" />
-    <Folder Include="Features\Jobs\Queries\GitList\" />
     <Folder Include="Features\Jobs\Queries\Git\" />
     <Folder Include="Features\HolidaysTypes\Commands\Create\" />
     <Folder Include="Features\HolidaysTypes\Commands\Update\" />
@@ -43,10 +39,6 @@
     <Folder Include="Features\HolidaysTypes\Queries\GitList\" />
     <Folder Include="Features\HolidaysTypes\Queries\Git\" />
     <Folder Include="Features\Employees\Commands\Update\" />
-    <Folder Include="Features\Employees\Dtos\GetList\" />
-    <Folder Include="Features\Employees\Profiles\" />
-    <Folder Include="Features\Employees\Queries\GitList\" />
-    <Folder Include="Features\Employees\Queries\Git\" />
     <Folder Include="Features\EmpHolidaysOrder\Commands\Create\" />
     <Folder Include="Features\EmpHolidaysOrder\Commands\Update\" />
     <Folder Include="Features\EmpHolidaysOrder\Dtos\GetList\" />
@@ -57,7 +49,6 @@
     <Folder Include="Features\Departments\Commands\Create\" />
     <Folder Include="Features\Departments\Commands\Update\" />
     <Folder Include="Features\Departments\Profiles\" />
-    <Folder Include="Features\Departments\Queries\GitList\" />
     <Folder Include="Features\Attendances\Commands\Create\" />
     <Folder Include="Features\Attendances\Commands\Update\" />
     <Folder Include="Features\Attendances\Dtos\GetList\" />
