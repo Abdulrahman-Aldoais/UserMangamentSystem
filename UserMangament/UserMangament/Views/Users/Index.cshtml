@@ -99,7 +99,14 @@
                                 <td>@item.Phone</td>
                                 <td>@item.CreatedDate</td>
                                 <td>@item.Age</td>
-                                <td><span class="status completed">@item.IsActive</span></td>
+                                @if (item.IsActive == true)
+                                {
+                                    <td><span class="status completed">نشط</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="status completed">موقف</span></td>
+                                }
                                 <td class="action-buttons">
                                     <a asp-controller="Users" asp-action="DisplayUserInformation" asp-route-Id="@item.Id" class="view-button">عرض</a>
                                     <a asp-controller="Users" asp-action="EditUser" asp-route-Id="@item.Id" class="edit-button">تعديل</a>

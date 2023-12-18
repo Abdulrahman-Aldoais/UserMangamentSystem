@@ -1,5 +1,6 @@
 ﻿using Application.Services.DepartmentService;
 using Application.Services.EmployeeServices;
+using Application.Services.JobServices;
 using Application.Services.UserService;
 using FluentValidation;
 using MediatR;
@@ -22,6 +23,7 @@ namespace Application
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IJobService, JobService>();
 
             return services;
         }
