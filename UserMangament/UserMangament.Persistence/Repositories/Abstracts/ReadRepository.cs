@@ -44,6 +44,7 @@ namespace UserMangament.Persistence.Repositories.Abstracts
         }
 
 
+
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate = null)
         {
             return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);

@@ -14,6 +14,10 @@ namespace Application.Services.UserService
         private readonly IUserWriteRepository _userWriteRepository;
 
         private readonly IMapper _mapper;
+        private IUserReadRepository object1;
+        private IUserWriteRepository object2;
+        private IMapper object3;
+
         public UserService(
             IUserReadRepository userReadRepository,
             IMapper mapper,
@@ -24,6 +28,9 @@ namespace Application.Services.UserService
             _mapper = mapper;
             _userWriteRepository = userWriteRepository;
         }
+
+
+
         public async Task<List<GetListUserOutput>> GetAllUserAsync()
         {
             var allUsers = _userReadRepository.GetAll();
