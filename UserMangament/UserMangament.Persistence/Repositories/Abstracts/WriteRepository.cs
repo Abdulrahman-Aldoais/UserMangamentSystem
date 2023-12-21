@@ -35,7 +35,7 @@ namespace UserMangament.Persistence.Repositories.Abstracts
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                // Get the entity that caused the concurrency exception
+
                 var entry = ex.Entries.Single();
                 // Reload the entity from the database
                 await entry.ReloadAsync();

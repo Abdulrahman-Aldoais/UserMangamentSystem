@@ -51,6 +51,8 @@ namespace Application.Services.UserService
 
         }
 
+
+
         public async Task<GetUserOutput> GetUserByIdAsync(int id)
         {
             var getInformationUserById = await _userReadRepository.GetAsync(x => x.Id.Equals(id));

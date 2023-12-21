@@ -1,5 +1,4 @@
 ﻿using Application.Repositories.EmployeeRepositoty;
-using Application.Repositories.UserRepository;
 using Domain.Entities;
 
 namespace Application.Services.EmployeeServices
@@ -18,10 +17,23 @@ namespace Application.Services.EmployeeServices
                 await _employeeWriteRepositoty.AddAsync(employee);
                 return "Success";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
+                // Log the exception details, including inner exception
+                Console.WriteLine("Exception message: " + ex.Message);
+                Console.WriteLine("Stack trace: " + ex.StackTrace);
+
+                // Check for inner exception
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception message: " + ex.InnerException.Message);
+                    Console.WriteLine("Inner Exception stack trace: " + ex.InnerException.StackTrace);
+                    // Log any additional information from
+
+
+                }
                 return "Failed";
-                //throw ex;
             }
         }
     }

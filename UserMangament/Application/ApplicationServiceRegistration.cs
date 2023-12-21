@@ -2,6 +2,7 @@
 using Application.Services.EmployeeServices;
 using Application.Services.JobServices;
 using Application.Services.UserService;
+using Application.Services.WorkingHourServices;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace Application
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IWorkingHourService, WorkingHourService>();
 
             return services;
         }

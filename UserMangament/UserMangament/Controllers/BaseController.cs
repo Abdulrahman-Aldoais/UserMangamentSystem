@@ -66,7 +66,7 @@ namespace UserMangament.Controllers
         }
 
 
-        public void NotifyError(List<string> errorMessage, string additionalError)
+        public void NotifyError(List<string>? errorMessage, string? additionalError)
         {
             errorMessage.Add(additionalError); // إضافة النص المعين إلى القائمة
 

@@ -2,6 +2,7 @@
 using Application.Repositories.EmployeeRepositoty;
 using Application.Repositories.JobsRepositorys;
 using Application.Repositories.UserRepository;
+using Application.Repositories.WorkingHourRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using UserMangament.Persistence.Contexts;
@@ -9,6 +10,7 @@ using UserMangament.Persistence.Repositories.DepartmentRepository;
 using UserMangament.Persistence.Repositories.EmployeeRepository;
 using UserMangament.Persistence.Repositories.JobRepositoty;
 using UserMangament.Persistence.Repositories.UserRepository;
+using UserMangament.Persistence.Repositories.WorkingHoursRepository;
 
 namespace UserMangament.Persistence
 {
@@ -35,6 +37,10 @@ namespace UserMangament.Persistence
                 services.AddScoped<IEmployeeWriteRepositoty, EmployeeWriteRepository>();
                 services.AddScoped<IJobsReadRepository, JobReadRepository>();
                 services.AddScoped<IJobsWriteRepository, JobWriteRepository>();
+
+                services.AddScoped<IWorkingHourReadRepository, WorkingHourReadRepository>();
+                services.AddScoped<IWorkingHourWriteRepository, WorkingHourWriteRepository>();
+
 
 
                 return services;

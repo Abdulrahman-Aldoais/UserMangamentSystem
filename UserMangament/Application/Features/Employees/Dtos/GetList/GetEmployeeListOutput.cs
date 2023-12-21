@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace Application.Features.Employees.Dtos.GetList
 {
     public class GetEmployeeListOutput
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
         public int DepartmentId { get; set; }
@@ -18,5 +15,6 @@ namespace Application.Features.Employees.Dtos.GetList
         public string JobDescription { get; set; }
         public double Salary { get; set; }
         public int WorkingHourId { get; set; }
+        public WorkingHour WorkingHour { get; set; }
     }
 }

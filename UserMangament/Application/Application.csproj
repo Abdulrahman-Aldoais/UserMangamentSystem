@@ -14,13 +14,10 @@
     <Folder Include="Features\Roles\Profiles\" />
     <Folder Include="Features\Roles\Queries\GitList\" />
     <Folder Include="Features\Roles\Queries\Git\" />
-    <Folder Include="Features\WorkingHour\Commands\Create\" />
-    <Folder Include="Features\WorkingHour\Commands\Update\" />
-    <Folder Include="Features\WorkingHour\Dtos\GetList\" />
-    <Folder Include="Features\WorkingHour\Dtos\Get\" />
-    <Folder Include="Features\WorkingHour\Profiles\" />
-    <Folder Include="Features\WorkingHour\Queries\GitList\" />
-    <Folder Include="Features\WorkingHour\Queries\Git\" />
+    <Folder Include="Features\WorkingHours\Commands\Create\" />
+    <Folder Include="Features\WorkingHours\Commands\Update\" />
+    <Folder Include="Features\WorkingHours\Dtos\Get\" />
+    <Folder Include="Features\WorkingHours\Queries\Git\" />
     <Folder Include="Features\Salarys\Commands\Create\" />
     <Folder Include="Features\Salarys\Commands\Update\" />
     <Folder Include="Features\Salarys\Dtos\GetList\" />
@@ -48,7 +45,6 @@
     <Folder Include="Features\EmpHolidaysOrder\Queries\Git\" />
     <Folder Include="Features\Departments\Commands\Create\" />
     <Folder Include="Features\Departments\Commands\Update\" />
-    <Folder Include="Features\Departments\Profiles\" />
     <Folder Include="Features\Attendances\Commands\Create\" />
     <Folder Include="Features\Attendances\Commands\Update\" />
     <Folder Include="Features\Attendances\Dtos\GetList\" />

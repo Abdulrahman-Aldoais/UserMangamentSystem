@@ -13,18 +13,21 @@ namespace UserMangament.Persistence.EntityConfigurations
               {
                   Id = 1,
                   Hours = 8,
+                  Name = " ",
                   Employment_TypeId = 1,
               },
                new WorkingHour
                {
                    Id = 2,
                    Hours = 6,
+                   Name = " ",
                    Employment_TypeId = 2,
                },
                 new WorkingHour
                 {
                     Id = 3,
                     Hours = 4,
+                    Name = " ",
                     Employment_TypeId = 3,
 
                 }

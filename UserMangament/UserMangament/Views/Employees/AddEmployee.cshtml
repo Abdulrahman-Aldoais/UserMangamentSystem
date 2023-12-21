@@ -1,0 +1,115 @@
+﻿@model EmployeeCreateViewModel
+@{
+}
+
+<style>
+    .user-details-form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    input[type="date"] {
+        width: calc(100% - 12px);
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 8px 15px;
+        font-size: 14px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<form asp-action="AddEmployee" asp-controller="Employees" class="user-details-form">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    @*<input type="hidden" asp-for="CreatedBy" name="CreatedBy" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" />*@
+
+    <div class="form-group">
+        <label for="username">اسم الموظف:</label>
+        <input type="text" asp-for="employeeOutput.Name">
+        <span class="text-danger" asp-validation-for="employeeOutput.Name"></span>
+    </div>
+    <div class="form-group">
+        <label for="username"> تاريخ التوظيف:</label>
+        <input type="text" asp-for="employeeOutput.HireDate">
+        <span class="text-danger" asp-validation-for="employeeOutput.HireDate"></span>
+    </div>
+    <div class="form-group">
+        <label for="email"> العمل:</label>
+        <input type="text" asp-for="employeeOutput.JobTitle">
+        <span class="text-danger" asp-validation-for="employeeOutput.JobTitle"></span>
+
+    </div>
+    <div class="form-group">
+        <label for="email"> الهاتف:</label>
+        <input type="text" asp-for="employeeOutput.Phone">
+        <span class="text-danger" asp-validation-for="employeeOutput.Phone"></span>
+
+    </div>
+    <div class="form-group">
+        <label for="birthdate"> توصيف العمل:</label>
+        <input type="text" asp-for="employeeOutput.JobDescription">
+        <span class="text-danger" asp-validation-for="employeeOutput.JobDescription"></span>
+
+        <samp class="c"></samp>
+    </div>
+    <div class="form-group">
+        <label for="phone">الراتب :</label>
+        <input type="text" asp-for="employeeOutput.Salary">
+        <span class="text-danger" asp-validation-for="employeeOutput.Salary"></span>
+
+    </div>
+    <div>
+        <label for="departmentLocation">القسم:</label>
+        <select asp-for="employeeOutput.DepartmentId" class="form-control" required>
+            <option selected="selected" value="0">اختر القسم </option>
+            @foreach (var item in Model.departmentListOutput)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+
+
+
+    <div>
+        <label for="departmentLocation">عدد ساعات العمل:</label>
+        <select asp-for="employeeOutput.WorkingHourId" class="form-control" required>
+            <option selected="selected" value="0">اختر عدد الساعات</option>
+            @foreach (var item in Model.workinHourListOutput)
+            {
+                <option value="@item.Id">@item.Hours</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit">اضافة</button>
+    </div>
+</form>

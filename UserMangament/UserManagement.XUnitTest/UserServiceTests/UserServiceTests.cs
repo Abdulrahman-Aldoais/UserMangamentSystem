@@ -23,6 +23,7 @@ namespace Application.XUnitTest.UserServiceTests
        _mapperMock.Object,
        _userWriteRepositoryMock.Object
              );
+
         }
 
         [Fact]
@@ -30,45 +31,43 @@ namespace Application.XUnitTest.UserServiceTests
         {
             // Arrange
             var users = new List<User>
-            {
-                new User
-                {
-                    Id = 1,
-                    UserName = "John Doe",
-                    Age = 30,
-                    Phone = "123-456-7890",
-                    Email = "johndoe@example.com",
-                    IsActive = true,
-                    AccountCancellationStatusBy =1,
-                    CreatedDate=DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    CreatedBy = 1,
-                    ModifiedBy =1,
-
-                },
-                new User
-                {
-                    Id = 2,
-                    UserName = "Jane Doe",
-                    Age = 25,
-                    Phone = "098-765-4321",
-                    Email = "janedoe@example.com",
-                    IsActive = true,
-                    AccountCancellationStatusBy =1,
-                    CreatedDate=DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    CreatedBy = 1,
-                    ModifiedBy =1,
-                }
-            };
-
-            var userQueryable = users.AsQueryable();
+    {
+        new User
+        {
+            Id = 1,
+            UserName = "John Doe",
+            Age = 30,
+            Phone = "123-456-7890",
+            Email = "johndoe@example.com",
+            IsActive = true,
+            AccountCancellationStatusBy = 1,
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now,
+            CreatedBy = 1,
+            ModifiedBy = 1,
+        },
+        new User
+        {
+            Id = 2,
+            UserName = "Jane Doe",
+            Age = 25,
+            Phone = "098-765-4321",
+            Email = "janedoe@example.com",
+            IsActive = true,
+            AccountCancellationStatusBy = 1,
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now,
+            CreatedBy = 1,
+            ModifiedBy = 1,
+        }
+    };
 
             _userReadRepositoryMock.Setup(repo => repo.GetAll(It.IsAny<Expression<Func<User, bool>>>()))
-                         .Returns(userQueryable);
-
-            //_userReadRepositoryMock.Setup(repo => repo.GetAll(It.IsAny<Expression<Func<User, bool>>>()))
-            //           .Returns(await Task.FromResult(userQueryable));
+                .Returns<Expression<Func<User, bool>>>(predicate =>
+                {
+                    var filteredUsers = users.Where(predicate.Compile()).ToList();
+                    return filteredUsers.AsQueryable();
+                });
 
             // Act
             var result = await _userService.GetAllUserAsync();
@@ -77,67 +76,7 @@ namespace Application.XUnitTest.UserServiceTests
             Assert.Equal(users.Count, result.Count);
         }
 
-        //[Fact]
-        //public async Task GetUserByIdAsync_ShouldReturnUser()
-        //{
-        //    // Arrange
-        //    var user = new User
-        //    {
-        //        Id = 1,
-        //        UserName = "John Doe",
-        //        Age = 30,
-        //        Phone = "123-456-7890",
-        //        Email = "johndoe@example.com",
-        //        IsActive = true
-        //    };
 
-        //    // Act
-        //    var result = await _userService.GetUserByIdAsync(user.Id);
-
-        //    // Assert
-        //    Assert.Equal(user, result);
-        //}
-
-        //[Fact]
-        //public async Task AddNewUserAsync_ShouldAddUser()
-        //{
-        //    // Arrange
-        //    var user = new User
-        //    {
-        //        UserName = "John Doe",
-        //        Age = 30,
-        //        Phone = "123-456-7890",
-        //        Email = "johndoe@example.com",
-        //        IsActive = true
-        //    };
-
-        //    // Act
-        //    var result = await _userService.AddNewUserAsync(user);
-
-        //    // Assert
-        //    Assert.Equal(result, "User added successfully");
-        //}
-
-        //[Fact]
-        //public async Task UpdateInformationUser_ShouldUpdateUser()
-        //{
-        //    // Arrange
-        //    var user = new User
-        //    {
-        //        Id = 1,
-        //        UserName = "John Doe",
-        //        Age = 30,
-        //        Phone = "123-456-7890",
-        //        Email = "johndoe@example.com",
-        //        IsActive = true
-        //    };
-
-        //    // Act
-        //    var result = await _userService.UpdateInformationUser(user);
-
-        //    // Assert
-        //    Assert.Equal(result, "User updated successfully");
-        //}
     }
 }
 

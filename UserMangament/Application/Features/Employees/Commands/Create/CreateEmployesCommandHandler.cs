@@ -1,5 +1,4 @@
 ﻿using Application.Features.Employees.Dtos.Get;
-using Application.Features.Users.Dtos.Get;
 using Application.Repositories.EmployeeRepositoty;
 using Application.Services.EmployeeServices;
 using AutoMapper;
@@ -10,13 +9,13 @@ using MediatR;
 
 namespace Application.Features.Employees.Commands.Create
 {
-    public class CreateEmployesCommandHandler :BaseCommandResponseHandler, IRequestHandler<CreateEmployesCommand, BaseCommandResponse<GetEmployeeOutput>>
+    public class CreateEmployesCommandHandler : BaseCommandResponseHandler, IRequestHandler<CreateEmployesCommand, BaseCommandResponse<GetEmployeeOutput>>
     {
         private readonly IEmployeeReadRepositoty _employeeReadRepositoty;
         private readonly IEmployeeWriteRepositoty _employeeWriteRepositoty;
         private readonly IEmployeeService _employeeService;
         private readonly IMapper _mapper;
-        public CreateEmployesCommandHandler(IEmployeeReadRepositoty employeeReadRepositoty,IMapper mapper,IEmployeeWriteRepositoty employeeWriteRepositoty,IEmployeeService employeeService)
+        public CreateEmployesCommandHandler(IEmployeeReadRepositoty employeeReadRepositoty, IMapper mapper, IEmployeeWriteRepositoty employeeWriteRepositoty, IEmployeeService employeeService)
         {
             _employeeReadRepositoty = employeeReadRepositoty;
             _mapper = mapper;
@@ -32,16 +31,18 @@ namespace Application.Features.Employees.Commands.Create
             {
                 response.Data = null;
                 response.Success = false;
-             //   response.StatusCode = System.Net.HttpStatusCode.BadRequest;
-				response.Message = SharedResourcesKeys.validateAllExpectedFieldsReceivedInDatabase;
-				response.Errors = validatorResult.Errors.Select(x => x.ErrorMessage).ToList();
+                //   response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                response.Message = SharedResourcesKeys.validateAllExpectedFieldsReceivedInDatabase;
+                response.Errors = validatorResult.Errors.Select(x => x.ErrorMessage).ToList();
             }
             else
             {
                 var employeeMapp = _mapper.Map<Employee>(request);
                 employeeMapp.CreatedDate = DateTime.Now;
+                employeeMapp.IsActive = true;
 
-                var insertEmployeeInToDatabase =await _employeeService.AddNewEmployee(employeeMapp);
+
+                var insertEmployeeInToDatabase = await _employeeService.AddNewEmployee(employeeMapp);
                 switch (insertEmployeeInToDatabase)
                 {
                     case "Failed": return BadRequest<GetEmployeeOutput>(SharedResourcesKeys.TryToRegisterAgain);
