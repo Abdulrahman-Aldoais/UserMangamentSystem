@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Application.Responses;
 using Domain.Resources;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Employees.Queries.GitList
 {
@@ -20,10 +21,20 @@ namespace Application.Features.Employees.Queries.GitList
         {
             var respons = new BaseCommandResponse<List<GetEmployeeListOutput>>();
 
-            var result = await _employeeReadRepositoty.GetListAsync();
-            var mappingResult = _mapper.Map<List<GetEmployeeListOutput>>(result);
+            var result = _employeeReadRepositoty.GetAll().Include(x => x.Department);
+            var getAllEmpolyee = result.Select(x => new GetEmployeeListOutput
+            {
+                Id = x.Id,
+                Name = x.Name,
+                DepartmentName = x.Department.Name,
+                HireDate = x.HireDate,
+                JobTitle = x.JobTitle,
+                Salary = x.Salary,
+                WorkingHour = x.WorkingHour.Hours,
+            });
+            var mappingResult = _mapper.Map<List<GetEmployeeListOutput>>(getAllEmpolyee);
 
-            if (!result.Any())
+            if (!getAllEmpolyee.Any())
             {
                 respons.Success = false;
                 respons.StatusCode = System.Net.HttpStatusCode.BadRequest;

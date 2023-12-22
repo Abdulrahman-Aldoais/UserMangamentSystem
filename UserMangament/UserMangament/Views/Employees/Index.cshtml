@@ -89,6 +89,7 @@
                             <th>تاريخ الانضمام</th>
                             <th>الراتب</th>
                             <th>ساعات العمل</th>
+                            <th>القسم</th>
                             <th>إجراء</th>
                         </tr>
                     </thead>
@@ -100,8 +101,8 @@
                                 <td>@item.Phone</td>
                                 <td>@item.CreatedDate</td>
                                 <td>@item.Salary</td>
-                                <td>@item.WorkingHourId</td>
-                                @*<td>@item.WorkingHour.Hours</td>*@
+                                <td>@item.WorkingHour</td>
+                                <td>@item.DepartmentName</td>
 
                                 <td class="action-buttons">
                                     <a asp-controller="Users" asp-action="DisplayUserInformation" asp-route-Id="@item.Id" class="btn btn-info view-button"><i class='bx bx-detail'></i></a>

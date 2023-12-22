@@ -1,6 +1,8 @@
+using Application.Features.Departments.Profiles;
 using Application.Features.Users.Dtos.GetList;
 using Application.Features.Users.Queries.GitList;
 using Application.Services.UserService;
+using AutoMapper;
 using Domain.Resources;
 using Moq;
 using System.Net;
@@ -11,9 +13,14 @@ namespace Application.XUnitTest.ApplicationTest
     public class GetListUserQueryHandlerTests
     {
         private readonly Mock<IUserService> _userServiceMock;
+        private readonly IMapper _mapperMock;
+        private readonly MappingProfile _mappingProfile;
         public GetListUserQueryHandlerTests()
         {
             _userServiceMock = new Mock<IUserService>();
+            _mappingProfile = new();
+            var configutation = new MapperConfiguration(c => c.AddProfile(_mappingProfile));
+            _mapperMock = new Mapper(configutation);
         }
 
         public List<GetListUserOutput> users = new List<GetListUserOutput>
@@ -49,7 +56,7 @@ namespace Application.XUnitTest.ApplicationTest
 };
 
         [Fact]
-        public async Task Handle_ReturnsOkWhenGetAllUsers()
+        public async Task Handle_UserList_ReturnsOkWhenGetAllUsers_Should_Not_Empty()
         {
 
             //Araing
@@ -59,20 +66,19 @@ namespace Application.XUnitTest.ApplicationTest
             var queryHandler = new GetListUserQueryHandler(_userServiceMock.Object);
 
             // Act
-            var response = await queryHandler.Handle(query, CancellationToken.None);
+            var result = await queryHandler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.True(response.Success);
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.NotEmpty(response.Data);
-            Assert.Null(response.Errors);
-            Assert.Equal(SharedResourcesKeys.Success, response.Message);
-
+            Assert.True(result.Success);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+            Assert.NotEmpty(result.Data);
+            Assert.Null(result.Errors);
+            Assert.Equal(SharedResourcesKeys.Success, result.Message);
 
         }
 
         [Fact]
-        public async Task Handle_ReturnsNotFountWhenNoUsers()
+        public async Task Handle_UserList_ReturnsBadRequestWhen_NotGetAllUsers_Should_Be_Empty()
         {
             var users2 = new List<GetListUserOutput>()
             {
