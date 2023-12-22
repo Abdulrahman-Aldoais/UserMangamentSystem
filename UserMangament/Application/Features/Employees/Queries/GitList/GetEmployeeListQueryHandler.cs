@@ -26,8 +26,9 @@ namespace Application.Features.Employees.Queries.GitList
             {
                 Id = x.Id,
                 Name = x.Name,
+                Phone = x.Phone,
                 DepartmentName = x.Department.Name,
-                HireDate = x.HireDate,
+                HireDate = x.HireDate.ToShortDateString(),
                 JobTitle = x.JobTitle,
                 Salary = x.Salary,
                 WorkingHour = x.WorkingHour.Hours,

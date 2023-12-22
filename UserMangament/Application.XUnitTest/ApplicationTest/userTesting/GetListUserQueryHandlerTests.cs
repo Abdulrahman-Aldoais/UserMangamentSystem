@@ -1,5 +1,5 @@
-using Application.Features.Departments.Profiles;
 using Application.Features.Users.Dtos.GetList;
+using Application.Features.Users.Profiles;
 using Application.Features.Users.Queries.GitList;
 using Application.Services.UserService;
 using AutoMapper;
@@ -8,7 +8,7 @@ using Moq;
 using System.Net;
 using Xunit;
 
-namespace Application.XUnitTest.ApplicationTest
+namespace Application.XUnitTest.ApplicationTest.userTesting
 {
     public class GetListUserQueryHandlerTests
     {
@@ -34,7 +34,7 @@ namespace Application.XUnitTest.ApplicationTest
         Email = "abdulrahman@exe.com",
         IsActive = true,
         AccountCancellationStatusBy = 1,
-        CreatedDate = DateTime.Now,
+        CreatedDate = "1/22/2023",
         ModifiedDate = DateTime.Now,
         CreatedBy = 1,
         ModifiedBy = 1,
@@ -48,7 +48,7 @@ namespace Application.XUnitTest.ApplicationTest
         Email = "ameen@exe.com",
         IsActive = true,
         AccountCancellationStatusBy = 1,
-        CreatedDate = DateTime.Now,
+        CreatedDate = "1/22/2023",
         ModifiedDate = DateTime.Now,
         CreatedBy = 1,
         ModifiedBy = 1,

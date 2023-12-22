@@ -39,7 +39,7 @@ namespace Application.Services.UserService
                 Id = x.Id,
                 Age = x.Age,
                 CreatedBy = x.CreatedBy,
-                CreatedDate = x.CreatedDate,
+                CreatedDate = x.CreatedDate.ToShortDateString(),
                 IsActive = x.IsActive,
                 ModifiedDate = x.ModifiedDate,
                 Phone = x.Phone,

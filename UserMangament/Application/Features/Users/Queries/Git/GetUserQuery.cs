@@ -7,5 +7,6 @@ namespace Application.Features.Users.Queries.Git
     public class GetUserQuery : IRequest<BaseCommandResponse<GetUserOutput>>
     {
         public int Id { get; set; }
+
     }
 }
