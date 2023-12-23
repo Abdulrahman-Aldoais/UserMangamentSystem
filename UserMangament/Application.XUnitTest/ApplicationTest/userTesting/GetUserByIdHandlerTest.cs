@@ -20,6 +20,8 @@ namespace Application.XUnitTest.ApplicationTest.userTesting
         private readonly Mock<IUserReadRepository> _userReadRepositoryMock;
         private readonly IMapper _mapperMock;
         private readonly MappingProfile _mappingProfile;
+     
+        
 
         public GetUserByIdHandlerTest()
         {
@@ -31,8 +33,11 @@ namespace Application.XUnitTest.ApplicationTest.userTesting
 
 
         }
-    
-        [Theory]
+        GetUserQuery get = new GetUserQuery
+        {
+            Id = 1
+        };
+            [Theory]
         [InlineData(6665)]
         [InlineData(54)]
         public async Task Handle_GetUser_By_Id_ShoudBe_Not_Null_Return_404_NotFound(int id)
@@ -42,7 +47,9 @@ namespace Application.XUnitTest.ApplicationTest.userTesting
             _userServiceMock.Setup(x => x.GetUserByIdAsync(id)).Returns( Task.FromResult(userMock.users.FirstOrDefault(x => x.Id == id)));
 
             _userReadRepositoryMock.Setup(x => x.GetAsync(x => x.Id == id))
-                           .ReturnsAsync();
+                           .ReturnsAsync(userMock.user);
+            var res = new GetUserQueryHandlerValidation(_userReadRepositoryMock.Object);
+            var reso = await res.IdIsNotExists(get, default);
             var handler = new GetUserQueryHandler(_userServiceMock.Object, _userReadRepositoryMock.Object);
 
             var result = await handler.Handle(query, default);

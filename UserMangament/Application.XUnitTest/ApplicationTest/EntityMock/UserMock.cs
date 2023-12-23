@@ -1,4 +1,5 @@
 ﻿using Application.Features.Users.Dtos.Get;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,19 @@ namespace Application.XUnitTest.ApplicationTest.EntityMock
 
         }
 
-
+      public  User user = new User()
+        {
+            Id = 2,
+            UserName = "ameen",
+            Age = 25,
+            Phone = "098-765-4321",
+            Email = "ameen@exe.com",
+            IsActive = true,
+            AccountCancellationStatusBy = 1,
+            CreatedDate = DateTime.Now,
+            ModifiedDate = DateTime.Now,
+            CreatedBy = 1,
+            ModifiedBy = 1,
+        };
     }
 }
