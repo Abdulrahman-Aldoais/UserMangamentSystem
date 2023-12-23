@@ -21,7 +21,9 @@ namespace Application.Features.Users.Queries.Git
             var respons = new BaseCommandResponse<GetUserOutput>();
             var validator = new GetUserQueryHandlerValidation(_userReadRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
-            if (!validatorResult.IsValid)
+            var resultAfterGetUser = _userReadRepository.GetAsync(x => x.Id == request.Id);
+            //if (!validatorResult.IsValid)
+            if (resultAfterGetUser == null)
             {
                 respons.Data = null;
                 respons.Success = false;
