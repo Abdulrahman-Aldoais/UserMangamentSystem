@@ -46,6 +46,7 @@
         public const string FailedToAddNewClaims = "فشلت عملية إضافة حقوق جديدة";
         public const string FailedToRemoveOldClaims = "فشلت عملية إزالة الحقوق القديمة";
         public const string Email = "البريد الإلكتروني";
+        public const string InvalidEmailFormat = "صيغة البريد الالكتورني غير صحيحة";
         public const string Message = "الرسالة";
         public const string SendEmailFailed = "فشل إرسال البريد الإلكتروني";
         public const string EmailNotConfirmed = "لم يتم تأكيد البريد الإلكتروني";

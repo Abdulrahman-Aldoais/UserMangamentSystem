@@ -26,11 +26,7 @@ namespace Application.Features.Users.Commands.Create
             .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
             .NotNull().WithMessage(SharedResourcesKeys.Required);
 
-            RuleFor(x => x.Email)
-            .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
-            .NotNull().WithMessage(SharedResourcesKeys.Required);
-
-
+           
             RuleFor(x => x.Age)
             .InclusiveBetween(22, 60)
             .WithMessage("الرجاء إدخال قيمة بين 22 و 60");
@@ -43,6 +39,15 @@ namespace Application.Features.Users.Commands.Create
             RuleFor(x => x)
                 .MustAsync(EmailCanNotBeDuplicatedWhenInserted)
                 .WithMessage("البريد الإلكتروني موجود");
+
+
+            RuleFor(x => x.Email)
+    .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
+    .NotNull().WithMessage(SharedResourcesKeys.Required)
+    .Must(email => !string.IsNullOrWhiteSpace(email) && email.Trim() == email && IsValidEmail(email))
+    .WithMessage(SharedResourcesKeys.InvalidEmailFormat);
+
+
 
         }
 
@@ -57,6 +62,19 @@ namespace Application.Features.Users.Commands.Create
         {
             var result = await _userReadRepository.GetAsync(x => x.Email == e.Email);
             return result == null;
+        }
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var emailRegex = new System.Text.RegularExpressions.Regex(@"^([a-zA-Z0-9\._%+-]+)@([a-zA-Z0-9\._%+-]+)\.([a-zA-Z]{2,4})$");
+
+                return emailRegex.IsMatch(email);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

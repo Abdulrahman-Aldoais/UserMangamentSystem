@@ -7,45 +7,74 @@ using MediatR;
 
 namespace Application.Features.Users.Queries.Git
 {
+
     public class GetUserQueryHandler : BaseCommandResponseHandler, IRequestHandler<GetUserQuery, BaseCommandResponse<GetUserOutput>>
     {
         private readonly IUserService _userService;
         private readonly IUserReadRepository _userReadRepository;
+
         public GetUserQueryHandler(IUserService userService, IUserReadRepository userReadRepository)
         {
             _userService = userService;
             _userReadRepository = userReadRepository;
+            
         }
+
         public async Task<BaseCommandResponse<GetUserOutput>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var respons = new BaseCommandResponse<GetUserOutput>();
+            
+            var response = new BaseCommandResponse<GetUserOutput>();
             var validator = new GetUserQueryHandlerValidation(_userReadRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
-            var resultAfterGetUser = _userReadRepository.GetAsync(x => x.Id == request.Id);
-            //if (!validatorResult.IsValid)
-            if (resultAfterGetUser == null)
-            {
-                respons.Data = null;
-                respons.Success = false;
-                respons.Message = SharedResourcesKeys.IsNotExist;
-                respons.StatusCode = System.Net.HttpStatusCode.NotFound;
-                respons.Success = false;
-                respons.Errors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
+            // Validate the query using the injected validator
 
+            if (!validatorResult.IsValid)
+            {
+                response.Data = null;
+                response.Success = false;
+                response.Message = SharedResourcesKeys.IsNotExist;
+                response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                response.Errors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList();
             }
             else
             {
-                var result = await _userService.GetUserByIdAsync(request.Id);
+                // Ensure _userReadRepository is not null before using it
+                if (_userReadRepository != null)
+                {
+                    var result = await _userReadRepository.GetAsync(x => x.Id == request.Id);
 
-                respons.Id = result.Id;
-                respons.Data = result;
-                respons.Success = true;
-                respons.StatusCode = System.Net.HttpStatusCode.OK;
-                respons.Message = SharedResourcesKeys.Success;
-                respons.Errors = null;
+                    if (result != null)
+                    {
+                        var userData = await _userService.GetUserByIdAsync(request.Id);
+
+                        response.Id = userData.Id;
+                        response.Data = userData;
+                        response.Success = true;
+                        response.StatusCode = System.Net.HttpStatusCode.OK;
+                        response.Message = SharedResourcesKeys.Success;
+                        response.Errors = null;
+                    }
+                    else
+                    {
+                        response.Data = null;
+                        response.Success = false;
+                        response.Message = SharedResourcesKeys.IsNotExist;
+                        response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                        response.Errors = new List<string> { "User not found." };
+                    }
+                }
+                else
+                {
+                    // Handle the case where _userReadRepository is null
+                    response.Data = null;
+                    response.Success = false;
+                    response.Message = SharedResourcesKeys.IsNotExist;
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.Errors = new List<string> { "_userReadRepository is null." };
+                }
             }
-            return respons;
-
+            return response;
         }
     }
 }
+
