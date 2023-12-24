@@ -43,8 +43,6 @@
     <Folder Include="Features\EmpHolidaysOrder\Profiles\" />
     <Folder Include="Features\EmpHolidaysOrder\Queries\GitList\" />
     <Folder Include="Features\EmpHolidaysOrder\Queries\Git\" />
-    <Folder Include="Features\Departments\Commands\Create\" />
-    <Folder Include="Features\Departments\Commands\Update\" />
     <Folder Include="Features\Attendances\Commands\Create\" />
     <Folder Include="Features\Attendances\Commands\Update\" />
     <Folder Include="Features\Attendances\Dtos\GetList\" />

@@ -16,9 +16,9 @@ namespace Application.Features.Employees.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<Employee , GetEmployeeOutput>().ReverseMap();
-            CreateMap<Employee , GetEmployeeListOutput>().ReverseMap();
-            CreateMap<Employee , CreateEmployesCommand>().ReverseMap();
+            CreateMap<Employee, GetEmployeeOutput>().ReverseMap();
+            CreateMap<Employee, GetEmployeeListOutput>().ReverseMap();
+            CreateMap < Employee , CreateEmployesCommand>().ReverseMap();
         }
     }
 }

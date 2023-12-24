@@ -21,7 +21,7 @@ namespace Application.Features.Departments.Queries.Git
             var respons = new BaseCommandResponse<GetDepartmentOutput>();
             var validator = new GetDepartmentQueryHandlerValidation(_readRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
-            if (validatorResult.IsValid)
+            if (!validatorResult.IsValid)
             {
                 respons.Data = null;
                 respons.Success = false;
