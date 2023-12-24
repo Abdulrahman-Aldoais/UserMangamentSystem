@@ -1,5 +1,4 @@
 ﻿using Application.Features.Employees.Profiles;
-using Application.Features.Users.Commands.Create;
 using Application.Features.Users.Dtos.Get;
 using Application.Features.Users.Queries.Git;
 using Application.Repositories.UserRepository;
@@ -9,7 +8,6 @@ using Domain.Entities;
 using Domain.Resources;
 using FluentValidation.TestHelper;
 using Moq;
-using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Net;
 using Xunit;

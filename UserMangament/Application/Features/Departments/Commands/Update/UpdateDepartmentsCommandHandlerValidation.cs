@@ -1,5 +1,4 @@
-﻿using Application.Repositories.DepartmentRepository;
-using Domain.Resources;
+﻿using Domain.Resources;
 using FluentValidation;
 
 namespace Application.Features.Departments.Commands.Update
@@ -12,8 +11,8 @@ namespace Application.Features.Departments.Commands.Update
             RuleFor(x => x.Name)
                  .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
                  .NotNull().WithMessage(SharedResourcesKeys.Required)
-                 .MaximumLength(100).WithMessage(SharedResourcesKeys.MaxLengthis100)
-                 .MinimumLength(50).WithMessage("الاسم المدخل صغير ");
+                 .MaximumLength(50).WithMessage(SharedResourcesKeys.MaxLengthis100)
+                 .MinimumLength(10).WithMessage("الاسم المدخل صغير ");
         }
 
     }

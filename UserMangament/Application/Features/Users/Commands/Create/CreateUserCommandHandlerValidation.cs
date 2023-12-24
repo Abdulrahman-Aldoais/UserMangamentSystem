@@ -1,6 +1,7 @@
 ﻿using Application.Repositories.UserRepository;
 using Domain.Resources;
 using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace Application.Features.Users.Commands.Create
 {
@@ -26,7 +27,7 @@ namespace Application.Features.Users.Commands.Create
             .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
             .NotNull().WithMessage(SharedResourcesKeys.Required);
 
-           
+
             RuleFor(x => x.Age)
             .InclusiveBetween(22, 60)
             .WithMessage("الرجاء إدخال قيمة بين 22 و 60");
@@ -44,7 +45,7 @@ namespace Application.Features.Users.Commands.Create
             RuleFor(x => x.Email)
     .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
     .NotNull().WithMessage(SharedResourcesKeys.Required)
-    .Must(email => !string.IsNullOrWhiteSpace(email) && email.Trim() == email && IsValidEmail(email))
+    .Must(email => !string.IsNullOrWhiteSpace(email) && email.Trim() == email && IsValidAddress(email))
     .WithMessage(SharedResourcesKeys.InvalidEmailFormat);
 
 
@@ -63,20 +64,25 @@ namespace Application.Features.Users.Commands.Create
             var result = await _userReadRepository.GetAsync(x => x.Email == e.Email);
             return result == null;
         }
-        public bool IsValidEmail(string email)
+        //public bool IsValidEmail(string email)
+        //{
+        //    try
+        //    {
+        //        var emailRegex = new System.Text.RegularExpressions.Regex(@"^([a-zA-Z0-9\._%+-]+)@([a-zA-Z0-9\._%+-]+)\.([a-zA-Z]{2,4})$");
+
+        //        return emailRegex.IsMatch(email);
+        //    }
+        //    catch
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public bool IsValidAddress(string emailAddress)
         {
-            try
-            {
-                var emailRegex = new System.Text.RegularExpressions.Regex(@"^([a-zA-Z0-9\._%+-]+)@([a-zA-Z0-9\._%+-]+)\.([a-zA-Z]{2,4})$");
-
-                return emailRegex.IsMatch(email);
-            }
-            catch
-            {
-                return false;
-            }
+            Regex regex = new Regex(@"^[\w0-9._%+-]+@[\w0-9.-]+\.[\w]{2,6}$");
+            return regex.IsMatch(emailAddress);
         }
-
 
     }
 }

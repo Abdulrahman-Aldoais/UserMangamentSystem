@@ -14,4 +14,6 @@ namespace Application.Features.Users.Commands.Create
         public int? CreatedBy { get; set; }
 
     }
+
+
 }
