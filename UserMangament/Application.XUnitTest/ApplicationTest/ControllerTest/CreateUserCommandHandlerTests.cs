@@ -17,7 +17,7 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
     public class CreateUserCommandHandlerTests
     {
         [Fact]
-        public async Task Handle_ValidUserData_When_Creat_ReturnsSuccessResponse()
+        public async Task Handle_ValidUserData_When_Creat_Returns_Success()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -54,12 +54,11 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
             Assert.True(result.Success);
             Assert.Null(result.Errors);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
-            // Add more assertions based on your expected behavior
+          
         }
 
-
         [Fact]
-        public async Task Handle_ValidUserData_When_Creat_ReturnsFileadResponse()
+        public async Task Handle_ValidUserData_When_Creat_ReturnsFilead()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();

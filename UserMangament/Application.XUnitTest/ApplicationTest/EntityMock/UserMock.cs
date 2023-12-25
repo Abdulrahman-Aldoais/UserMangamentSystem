@@ -31,7 +31,7 @@ namespace Application.XUnitTest.ApplicationTest.EntityMock
         CreatedBy = 1,
         ModifiedBy = 1,
     },
-    new GetUserOutput
+      new GetUserOutput
     {
         Id = 2,
         UserName = "ameen",

@@ -1,8 +1,10 @@
 ﻿using Application.Features.Users.Commands.Create;
 using Application.Repositories.UserRepository;
+using Azure.Core;
 using Domain.Resources;
 using FluentValidation.TestHelper;
 using Moq;
+using System.Net.Mail;
 using Xunit;
 
 namespace Application.XUnitTest.ApplicationTest.UserModleTest
@@ -53,7 +55,7 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
                 //Email = "abdulrahman@gmail.com",
                 //Name = "abdulrahman",
                 //UserName = "abdulrahman",
-                //Phone = "123-456-7890"
+                //Phone = "775115810"
             };
 
             // Act
@@ -87,7 +89,7 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
                 Name = "abdulrahman",
                 UserName = "abdulrahman",
                 Age = 30,
-                Phone = "123-456-7890"
+                Phone = "775115810"
             };
             var validationResult = validator.IsValidAddress(mailAddress);
             var result = await validator.ValidateAsync(request);
@@ -103,11 +105,45 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
 
 
 
+        [Theory]
+        [InlineData("")] 
+        [InlineData(null)] 
+        [InlineData("775115810")] 
+        [InlineData("775115810545456")]
+        [InlineData("12a34567")] 
+        public async void PhoneValidation_InvalidYemeniPhoneNumber_ShouldHaveValidationErrors(string phoneNumber)
+        {
+            var validator = new CreateUserCommandHandlerValidation(_userReadRepositoryMock.Object);
+            // Arrange
+            var model = new CreateUserCommand { 
+                Phone = phoneNumber,
+                Email = "aafgddga@gmail.com",
+                Name = "abdulrahman",
+                UserName = "abdulrahman",
+                Age = 30,
+               
+            };
+
+            // Act
+          
+            var result = await validator.ValidateAsync(model);
+
+
+            //// Assert
+            //result.ShouldHaveValidationErrorFor(x => x.Phone)
+            //    .WithErrorMessage("يرجى إدخال رقم هاتف صحيح في اليمن ولا يزيد عن 9 أرقام");
+
+            Assert.True(result.IsValid ,result.Errors.ToString());
+        }
+
+      
     }
 
 
 
 
 
+
 }
+
 

@@ -25,7 +25,8 @@ namespace Application.Features.Users.Commands.Create
 
             RuleFor(x => x.Phone)
             .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
-            .NotNull().WithMessage(SharedResourcesKeys.Required);
+            .NotNull().WithMessage(SharedResourcesKeys.Required)
+            .Matches(@"^\d{1,9}$").WithMessage("يرجى إدخال رقم هاتف صحيح في اليمن ولا يزيد عن 9 أرقام"); 
 
 
             RuleFor(x => x.Age)
@@ -58,31 +59,19 @@ namespace Application.Features.Users.Commands.Create
             var result = await _userReadRepository.GetAsync(x => x.Name == e.Name);
             return result == null;
         }
-
+        
         private async Task<bool> EmailCanNotBeDuplicatedWhenInserted(CreateUserCommand e, CancellationToken token)
         {
             var result = await _userReadRepository.GetAsync(x => x.Email == e.Email);
             return result == null;
         }
-        //public bool IsValidEmail(string email)
-        //{
-        //    try
-        //    {
-        //        var emailRegex = new System.Text.RegularExpressions.Regex(@"^([a-zA-Z0-9\._%+-]+)@([a-zA-Z0-9\._%+-]+)\.([a-zA-Z]{2,4})$");
-
-        //        return emailRegex.IsMatch(email);
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
+      
         public bool IsValidAddress(string emailAddress)
         {
             Regex regex = new Regex(@"^[\w0-9._%+-]+@[\w0-9.-]+\.[\w]{2,6}$");
             return regex.IsMatch(emailAddress);
         }
 
+       
     }
 }

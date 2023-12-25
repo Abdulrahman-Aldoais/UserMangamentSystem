@@ -14,9 +14,7 @@ namespace Application.Services.UserService
         private readonly IUserWriteRepository _userWriteRepository;
 
         private readonly IMapper _mapper;
-        private IUserReadRepository object1;
-        private IUserWriteRepository object2;
-        private IMapper object3;
+
 
         public UserService(
             IUserReadRepository userReadRepository,
