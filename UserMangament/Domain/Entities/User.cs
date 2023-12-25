@@ -4,7 +4,8 @@ namespace Domain.Entities
 {
     public class User : BaseEntity
     {
-
+        //تم استخدام طريقة التحقق من صحة البيانات عن طريق fluent validation and data annotations
+        // fluent validation => fluent validation
         [Required(ErrorMessage = "حقل مطلوب")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "حقل مطلوب")]

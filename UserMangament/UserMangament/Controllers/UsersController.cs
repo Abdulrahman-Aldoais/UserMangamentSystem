@@ -15,12 +15,10 @@ namespace UserMangament.Controllers
 
         private readonly IHttpContextAccessor _contextAccessor;
 
-        private readonly ILogger<UsersController> _logger;
         public string UserId { get => _contextAccessor.HttpContext?.User?.FindFirstValue("Id"); }
 
-        public UsersController(ILogger<UsersController> logger, IHttpContextAccessor httpContextAccessor)
+        public UsersController(IHttpContextAccessor httpContextAccessor)
         {
-            _logger = logger;
             _contextAccessor = httpContextAccessor;
         }
 
