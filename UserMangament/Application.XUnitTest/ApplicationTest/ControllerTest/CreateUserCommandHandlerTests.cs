@@ -1,8 +1,11 @@
 ﻿using Application.Features.Users.Commands.Create;
+using Application.Features.Users.Dtos.GetList;
+using Application.Features.Users.Queries.GitList;
 using Application.Repositories.UserRepository;
 using Application.Services.UserService;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -27,11 +30,41 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
             _contextAccessor = new Mock<IHttpContextAccessor>();
         }
 
-
+        public List<GetListUserOutput> users = new List<GetListUserOutput>
+        {
+            new GetListUserOutput
+            {
+                Id = 1,
+                UserName = "abdulrahman",
+                Age = 30,
+                Phone = "123-456-7890",
+                Email = "abdulrahman@exe.com",
+                IsActive = true,
+                AccountCancellationStatusBy = 1,
+                CreatedDate = "1/22/2023",
+                ModifiedDate = DateTime.Now,
+                CreatedBy = 1,
+                ModifiedBy = 1,
+            },
+            new GetListUserOutput
+            {
+                Id = 2,
+                UserName = "ameen",
+                Age = 25,
+                Phone = "098-765-4321",
+                Email = "ameen@exe.com",
+                IsActive = true,
+                AccountCancellationStatusBy = 1,
+                CreatedDate = "1/22/2023",
+                ModifiedDate = DateTime.Now,
+                CreatedBy = 1,
+                ModifiedBy = 1,
+            }
+        };
 
 
         [Fact]
-        public async Task Handle_ValidUserData_When_Creat_Returns_Success()
+        public async Task Handle_AddUser_WithTestData_Then_ReturnSuccess_Test()
         {
             // Arrange
             var mockMediator = new Mock<IMediator>();
@@ -121,5 +154,52 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
             Assert.Equal(HttpStatusCode.UnprocessableEntity, result.StatusCode);
 
         }
+
+        [Fact]
+        public async Task Handle_GetAllUsers_ReturnsSuccessResponse_WhenUsersExist()
+        {
+            // Arrange
+            var mockUserService = new Mock<IUserService>();
+           
+            mockUserService.Setup(service => service.GetAllUserAsync()).ReturnsAsync(users);
+
+            var handler = new GetListUserQueryHandler(mockUserService.Object);
+            var query = new GetListUserQuery();
+
+            // Act
+            var response = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.True(response.Success);
+            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(SharedResourcesKeys.Success, response.Message);
+            Assert.NotNull(response.Data);
+            Assert.Equal(users.Count, response.Data.Count);
+        }
+
+        [Fact]
+        public async Task Handle_GetAllUsers_ReturnsBadRequest_WhenNoUsersExist()
+        {
+            // Arrange
+            var mockUserService = new Mock<IUserService>();
+            mockUserService.Setup(service => service.GetAllUserAsync()).ReturnsAsync(new List<GetListUserOutput>());
+
+            var handler = new GetListUserQueryHandler(mockUserService.Object);
+            var query = new GetListUserQuery(); 
+
+            // Act
+            var response = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.False(response.Success);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(SharedResourcesKeys.BadRequest, response.Message);
+            Assert.NotNull(response.Data);
+            Assert.Empty(response.Data);
+        }
     }
+
+
+
 }
+

@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using System.Net;
 using Xunit;
 
-namespace Application.XUnitTest.ApplicationTest.userTesting
+namespace Application.XUnitTest.ApplicationTest.HandleUserTesting
 {
     public class GetUserByIdHandlerTest
     {

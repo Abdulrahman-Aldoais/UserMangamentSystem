@@ -8,7 +8,7 @@ using Moq;
 using System.Net;
 using Xunit;
 
-namespace Application.XUnitTest.ApplicationTest.userTesting
+namespace Application.XUnitTest.ApplicationTest.HandleUserTesting
 {
     public class GetListUserQueryHandlerTests
     {
@@ -24,36 +24,36 @@ namespace Application.XUnitTest.ApplicationTest.userTesting
         }
 
         public List<GetListUserOutput> users = new List<GetListUserOutput>
-{
-    new GetListUserOutput
-    {
-        Id = 1,
-        UserName = "abdulrahman",
-        Age = 30,
-        Phone = "123-456-7890",
-        Email = "abdulrahman@exe.com",
-        IsActive = true,
-        AccountCancellationStatusBy = 1,
-        CreatedDate = "1/22/2023",
-        ModifiedDate = DateTime.Now,
-        CreatedBy = 1,
-        ModifiedBy = 1,
-    },
-    new GetListUserOutput
-    {
-        Id = 2,
-        UserName = "ameen",
-        Age = 25,
-        Phone = "098-765-4321",
-        Email = "ameen@exe.com",
-        IsActive = true,
-        AccountCancellationStatusBy = 1,
-        CreatedDate = "1/22/2023",
-        ModifiedDate = DateTime.Now,
-        CreatedBy = 1,
-        ModifiedBy = 1,
-    }
-};
+        {
+            new GetListUserOutput
+            {
+                Id = 1,
+                UserName = "abdulrahman",
+                Age = 30,
+                Phone = "123-456-7890",
+                Email = "abdulrahman@exe.com",
+                IsActive = true,
+                AccountCancellationStatusBy = 1,
+                CreatedDate = "1/22/2023",
+                ModifiedDate = DateTime.Now,
+                CreatedBy = 1,
+                ModifiedBy = 1,
+            },
+            new GetListUserOutput
+            {
+                Id = 2,
+                UserName = "ameen",
+                Age = 25,
+                Phone = "098-765-4321",
+                Email = "ameen@exe.com",
+                IsActive = true,
+                AccountCancellationStatusBy = 1,
+                CreatedDate = "1/22/2023",
+                ModifiedDate = DateTime.Now,
+                CreatedBy = 1,
+                ModifiedBy = 1,
+            }
+        };
 
         [Fact]
         public async Task Handle_UserList_ReturnsOkWhenGetAllUsers_Should_Not_Empty()

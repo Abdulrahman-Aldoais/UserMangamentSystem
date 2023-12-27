@@ -37,7 +37,6 @@ namespace UserMangament.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        //[Route("user/addUser/")]
         public async Task<IActionResult> AddUser(CreateUserCommand getUserOutput)
         {
 
@@ -68,7 +67,6 @@ namespace UserMangament.Controllers
         }
 
         [HttpGet]
-        //[Route("user/edit")]
         public async Task<IActionResult> EditUser(GetUserQuery getUser)
         {
             if (getUser.Id == 0) RedirectToAction("Index", "Users");

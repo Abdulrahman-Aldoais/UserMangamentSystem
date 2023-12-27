@@ -15,6 +15,7 @@
         public const string BadRequest = "طلب غير صحيح";
         public const string UnprocessableEntity = "غير قابل للمعالجة";
         public const string MaxLengthis100 = "الحد الأقصى للطول هو 100";
+        public const string MainLengthis20 = "الحد الادنى للطول هو 20";
         public const string IsExist = "موجود";
         public const string IsNotExist = "غير موجود";
         public const string DepartmementId = "معرف القسم";

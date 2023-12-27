@@ -20,7 +20,9 @@ namespace Application.Features.Users.Commands.Create
 
             RuleFor(x => x.Name)
           .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
-          .NotNull().WithMessage(SharedResourcesKeys.Required);
+          .NotNull().WithMessage(SharedResourcesKeys.Required)
+          .MaximumLength(100).WithMessage(SharedResourcesKeys.MaxLengthis100)
+          .MaximumLength(20).WithMessage(SharedResourcesKeys.MainLengthis20);
 
 
             RuleFor(x => x.Phone)
@@ -30,8 +32,10 @@ namespace Application.Features.Users.Commands.Create
 
 
             RuleFor(x => x.Age)
-            .InclusiveBetween(22, 60)
-            .WithMessage("الرجاء إدخال قيمة بين 22 و 60");
+             .NotEmpty().WithMessage(SharedResourcesKeys.NotEmpty)
+            .NotNull().WithMessage(SharedResourcesKeys.Required)
+            .InclusiveBetween(20, 60)
+            .WithMessage("الرجاء إدخال قيمة بين20  و 60");
 
             RuleFor(x => x)
                  .MustAsync(NameCanNotBeDuplicatedWhenInserted)

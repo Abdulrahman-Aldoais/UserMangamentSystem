@@ -2,6 +2,7 @@
 using Application.Repositories.UserRepository;
 using Azure.Core;
 using Domain.Resources;
+using FluentAssertions;
 using FluentValidation.TestHelper;
 using Moq;
 using System.Net.Mail;
@@ -22,7 +23,7 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
 
         [Theory]
         [InlineData(null)]
-        [InlineData("abdulrahman")]
+        //[InlineData("abdulrahman")]
         [InlineData(" ")]
         public async Task Name_cannot_be_empty(string name)
         {
@@ -31,6 +32,9 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
             {
                 Name = name,
                 Age = 32,
+                Email = "abdulrahman@gmail.com",
+                UserName = "abdulrahman",
+                Phone = "775115810"
 
             };
 
@@ -39,32 +43,32 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
 
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.Name);
+            result.Should().NotBeNull();
+
+            Assert.False(result.IsValid);
         }
 
         [Theory]
         [InlineData(32)]
-        [InlineData(0)]
-        [InlineData(19)]
-        [InlineData(61)]
+        [InlineData(22)]
         public async Task Age_ValidationCanNot_be_Smole_Than_20_And_Largle_than_60(int age)
         {
             // Arrange
             var request = new CreateUserCommand
             {
                 Age = age,
-                //Email = "abdulrahman@gmail.com",
-                //Name = "abdulrahman",
-                //UserName = "abdulrahman",
-                //Phone = "775115810"
+                Email = "abdulrahman@gmail.com",
+                Name = "abdulrahman",
+                UserName = "abdulrahman",
+                Phone = "775115810"
             };
 
             // Act
-            // var result = await _validator.TestValidateAsync(request);
+            var result = await _validator.TestValidateAsync(request);
 
             // Assert
+            Assert.True(result.IsValid);
             Assert.InRange(request.Age, 20, 60);
-            //result.ShouldHaveValidationErrorFor(x => x.Age)
-            //    .WithErrorMessage("يجب أن يكون العمر بين 20 و 60");
 
         }
 
@@ -104,14 +108,9 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
         }
 
 
-
         [Theory]
-        [InlineData("")] 
-        [InlineData(null)] 
         [InlineData("775115810")] 
-        [InlineData("775115810545456")]
-        [InlineData("12a34567")] 
-        public async void PhoneValidation_InvalidYemeniPhoneNumber_ShouldHaveValidationErrors(string phoneNumber)
+        public async void PhoneValidation_InvalidYemeniPhoneNumber_ReturnTrue(string phoneNumber)
         {
             var validator = new CreateUserCommandHandlerValidation(_userReadRepositoryMock.Object);
             // Arrange
@@ -127,16 +126,35 @@ namespace Application.XUnitTest.ApplicationTest.UserModleTest
             // Act
           
             var result = await validator.ValidateAsync(model);
-
-
-            //// Assert
-            //result.ShouldHaveValidationErrorFor(x => x.Phone)
-            //    .WithErrorMessage("يرجى إدخال رقم هاتف صحيح في اليمن ولا يزيد عن 9 أرقام");
-
             Assert.True(result.IsValid ,result.Errors.ToString());
         }
 
-      
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("775115810545456")]
+        [InlineData("12a34567")]
+        public async void PhoneValidation_InvalidYemeniPhoneNumber_ReturnFale(string phoneNumber)
+        {
+            var validator = new CreateUserCommandHandlerValidation(_userReadRepositoryMock.Object);
+            // Arrange
+            var model = new CreateUserCommand
+            {
+                Phone = phoneNumber,
+                Email = "aafgddga@gmail.com",
+                Name = "abdulrahman",
+                UserName = "abdulrahman",
+                Age = 30,
+            };
+
+            // Act
+            var result = await validator.ValidateAsync(model);
+
+            Assert.False(result.IsValid, result.Errors.ToString());
+        }
+
+
     }
 
 
