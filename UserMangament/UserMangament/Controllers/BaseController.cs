@@ -66,9 +66,31 @@ namespace UserMangament.Controllers
         }
 
 
+        //public void NotifyError(List<string>? errorMessage, string? additionalError)
+        //{
+        //    errorMessage.Add(additionalError); // إضافة النص المعين إلى القائمة
+
+        //    var msg = new
+        //    {
+        //        message = JsonConvert.SerializeObject(errorMessage),
+        //        title = "نظام إدارة المستخدمين - شركة ثروات",
+        //        icon = NotificationType.error.ToString(),
+        //        type = NotificationType.error.ToString(),
+        //        provider = GetProvider()
+        //    };
+
+        //    TempData["Message"] = JsonConvert.SerializeObject(msg);
+        //}
+
+
         public void NotifyError(List<string>? errorMessage, string? additionalError)
         {
-            errorMessage.Add(additionalError); // إضافة النص المعين إلى القائمة
+            errorMessage ??= new List<string>();
+
+            if (additionalError != null)
+            {
+                errorMessage.Add(additionalError);
+            }
 
             var msg = new
             {
@@ -81,6 +103,7 @@ namespace UserMangament.Controllers
 
             TempData["Message"] = JsonConvert.SerializeObject(msg);
         }
+
 
 
 

@@ -1,17 +1,18 @@
-﻿using Application.Features.Departments.Queries.GitList;
-using Application.Features.Departments.Commands.Create;
-using Application.Features.Users.Commands.Create;
-using Application.Features.Users.Commands.Update;
-using Application.Features.Users.Dtos.Get;
+﻿using Application.Features.Departments.Commands.Create;
+using Application.Features.Departments.Commands.Update;
+using Application.Features.Departments.Dtos.Get;
+using Application.Features.Departments.Dtos.GetList;
+using Application.Features.Departments.Queries.Git;
 using Application.Features.Users.Queries.Git;
-using Application.Features.Users.Queries.GitList;
+using AutoMapper;
+using Core.Application.Responses;
+using Domain.Resources;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 using UserMangament.Models;
-using Application.Features.Departments.Queries.Git;
-using Application.Features.Departments.Dtos.Get;
-using Application.Features.Departments.Commands.Update;
 
 namespace UserMangament.Controllers
 {
@@ -19,20 +20,36 @@ namespace UserMangament.Controllers
     {
 
         private readonly IHttpContextAccessor _contextAccessor;
-
-        private readonly ILogger<UsersController> _logger;
+        private readonly IMapper _mapper;
+        private readonly HttpClient _httpClient;
         public string UserId { get => _contextAccessor.HttpContext?.User?.FindFirstValue("Id"); }
 
-        public DepartmentsController(ILogger<UsersController> logger, IHttpContextAccessor httpContextAccessor)
+        public DepartmentsController(IHttpContextAccessor httpContextAccessor, HttpClient httpClient, IMapper mapper)
         {
-            _logger = logger;
+
             _contextAccessor = httpContextAccessor;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var allUsers = await Mediator.Send(new GetDepartmentListQuery());
-            return View(allUsers.Data);
+            var response = new BaseCommandResponse<List<GetListDepartmentOutput>>();
+            HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Depatrment/GetDepartmentList");
+            if (responseJson.IsSuccessStatusCode)
+            {
+                string data = await responseJson.Content.ReadAsStringAsync();
+                List<GetListDepartmentOutput> userInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<List<GetListDepartmentOutput>>>(data).Data;
+                var resultMapp = _mapper.Map<List<GetListDepartmentOutput>>(userInfo);
+                response.Data = resultMapp;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+                return View(resultMapp);
+
+            }
+            return View();
         }
 
         [HttpGet]
@@ -44,74 +61,147 @@ namespace UserMangament.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        //[Route("department/addDepartment/")]
         public async Task<IActionResult> AddDepartment(CreateDepartmentsCommand getUserOutput)
         {
 
-            var result = await Mediator.Send(new CreateDepartmentsCommand
+            var response = new BaseCommandResponse<GetDepartmentOutput>();
+            CreateDepartmentsCommand departmentsCommand = new CreateDepartmentsCommand
             {
                 Name = getUserOutput.Name,
-                CreatedBy = null
-
-            });
-            return await NewResult(result, () =>
+            };
+            string data = JsonSerializer.Serialize(departmentsCommand);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseJson = await _httpClient.PostAsync("https://localhost:7289/api/Depatrment/CreateDepartment", content);
+            if (responseJson.IsSuccessStatusCode)
             {
-                if (result.Success)
-                {
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+            }
 
-                    NotifySuccess(result.Message);
-                    return RedirectToAction("Index", "Departments");
-                }
-                else
-                {
-                    NotifyError(result.Errors, result.Message);
-                    return View(getUserOutput);
-                }
-            });
-        }
-
-        [HttpGet]
-        //[Route("user/edit")]
-        public async Task<IActionResult> EditDepartment(GetDepartmentQuery getDepartment)
+            return await NewResult(response, () =>
         {
-            if (getDepartment.Id == 0) RedirectToAction("Index", "Departments");
-
-            var result = await Mediator.Send(getDepartment);
-
-
-            if (result.Success)
+            if (response.Success)
             {
-                var modle = new GetDepartmentOutput
-                {
-                    Id = result.Data.Id,
-                    Name = result.Data.Name
-                };
 
-                return View(modle);
+                NotifySuccess(response.Message);
+                return RedirectToAction("Index", "Departments");
             }
             else
             {
-                NotifyError(result.Errors, result.Message);
+                NotifyError(response.Errors, response.Message);
+                return View(getUserOutput);
+            }
+        });
+        }
+
+        //[HttpGet]
+        ////[Route("user/edit")]
+        //public async Task<IActionResult> EditDepartment(GetDepartmentQuery getDepartment)
+        //{
+        //    if (getDepartment.Id == 0) RedirectToAction("Index", "Departments");
+
+        //    var response = new BaseCommandResponse<GetDepartmentOutput>();
+        //    HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Depatrment/GetDepartmentList");
+        //    if (responseJson.IsSuccessStatusCode)
+        //    {
+        //        string data = await responseJson.Content.ReadAsStringAsync();
+        //        GetDepartmentOutput userInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(data).Data;
+        //        var resultMapp = _mapper.Map<GetDepartmentOutput>(userInfo);
+        //        response.StatusCode = System.Net.HttpStatusCode.OK;
+        //        response.Success = true;
+        //        response.Message = SharedResourcesKeys.Success;
+        //        response.Errors = null;
+
+        //        return View(resultMapp);
+
+        //    }
+        //    else
+        //    {
+        //        var modle = new GetDepartmentOutput
+        //        {
+        //            Id = resu.Data.Id,
+        //            Name = result.Data.Name
+        //        };
+
+        //        return View(modle);
+        //    }
+        //    else
+        //    {
+        //        NotifyError(result.Errors, result.Message);
+        //        return RedirectToAction("Index", "Departments");
+        //    }
+        //}
+        [HttpGet]
+        public async Task<IActionResult> EditDepartment(GetDepartmentQuery getDepartment)
+        {
+            if (getDepartment.Id == 0)
+            {
+                return RedirectToAction("Index", "Departments");
+            }
+            GetDepartmentQuery getId = new GetDepartmentQuery
+            {
+                Id = getDepartment.Id,
+            };
+            var response = new BaseCommandResponse<GetDepartmentOutput>();
+            HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Department/GetDepartment/" + getId.Id);
+
+            if (responseJson.IsSuccessStatusCode)
+            {
+                string data = await responseJson.Content.ReadAsStringAsync();
+                BaseCommandResponse<GetDepartmentOutput> result = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(data);
+
+                GetDepartmentOutput userInfo = result.Data;
+                var resultMapped = _mapper.Map<GetDepartmentOutput>(userInfo);
+
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+
+                return View(resultMapped);
+            }
+            else
+            {
+                var errorData = await responseJson.Content.ReadAsStringAsync();
+                BaseCommandResponse<GetDepartmentOutput> errorResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(errorData);
+
+                NotifyError(errorResult?.Errors, errorResult?.Message);
+
                 return RedirectToAction("Index", "Departments");
             }
         }
+
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDepartment(GetDepartmentOutput updateDepartment)
         {
-            var result = await Mediator.Send(new UpdateDepartmentsCommand()
-            {
-                Id = updateDepartment.Id,
-                Name = updateDepartment.Name
-            });
 
-            if (result.Success)
+            var response = new BaseCommandResponse<GetDepartmentOutput>();
+            UpdateDepartmentsCommand departmentsCommand = new UpdateDepartmentsCommand
             {
-                NotifySuccess(result.Message);
+                Name = updateDepartment.Name,
+            };
+            string data = JsonSerializer.Serialize(departmentsCommand);
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseJson = await _httpClient.PostAsync("https://localhost:7289/api/Depatrment/UpdateDepartment", content);
+            if (responseJson.IsSuccessStatusCode)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+            }
+
+            if (response.Success)
+            {
+                NotifySuccess(response.Message);
                 return RedirectToAction("Index", "Departments");
             }
             else
             {
-                NotifyError(result.Errors, result.Message);
+                NotifyError(response.Errors, response.Message);
                 return View(updateDepartment);
             }
         }
