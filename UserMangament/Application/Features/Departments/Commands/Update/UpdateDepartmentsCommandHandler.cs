@@ -1,13 +1,8 @@
 ﻿using Application.Features.Departments.Dtos.Get;
-using Application.Features.Employees.Commands.Create;
-using Application.Features.Users.Commands.Update;
-using Application.Features.Users.Dtos.Get;
 using Application.Repositories.DepartmentRepository;
-using Application.Repositories.UserRepository;
 using Application.Services.DepartmentService;
 using AutoMapper;
 using Core.Application.Responses;
-using Domain.Entities;
 using Domain.Resources;
 using MediatR;
 
@@ -52,6 +47,7 @@ namespace Application.Features.Departments.Commands.Update
                 var createResult = await _departmentService.UpdateDepartment(getDepartmentById);
 
                 var departmentMapp = _mapper.Map<GetDepartmentOutput>(request);
+                response.Id = departmentMapp.Id;
                 response.Data = departmentMapp;
                 response.Success = true;
                 response.StatusCode = System.Net.HttpStatusCode.OK;

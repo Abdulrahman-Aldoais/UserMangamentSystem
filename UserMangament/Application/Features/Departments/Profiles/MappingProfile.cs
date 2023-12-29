@@ -15,6 +15,8 @@ namespace Application.Features.Departments.Profiles
             CreateMap<Department, GetDepartmentOutput>().ReverseMap();
             CreateMap<Department, CreateDepartmentsCommand>().ReverseMap();
             CreateMap<Department, UpdateDepartmentsCommand>().ReverseMap();
+            CreateMap<UpdateDepartmentsCommand, GetDepartmentOutput>();
+
         }
     }
 }

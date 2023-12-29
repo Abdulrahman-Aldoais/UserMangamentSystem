@@ -27,11 +27,17 @@ namespace UserMangamentAPI.Controllers
             return NewResult(await Mediator.Send(createDepartmentsCommand));
         }
 
-        [HttpGet("GetDepartment/{getDepartmentQueryId}")]
-        public async Task<IActionResult> Edit(GetDepartmentQuery getDepartmentQueryId)
+        [HttpGet("GetDepartment/{id}")]
+        public async Task<ActionResult> Edit(int id)
         {
-            return NewResult(await Mediator.Send(getDepartmentQueryId));
+            return NewResult(await Mediator.Send(new GetDepartmentQuery() { Id = id }));
         }
+
+        //[HttpGet("GetDepartment/{id}")]
+        //public async Task<ActionResult> Edit([FromRoute] int id)
+        //{
+        //    return NewResult(await Mediator.Send(new GetDepartmentQuery() { Id = id }));
+        //}
 
         [HttpPost("UpdateDepartment")]
         public async Task<IActionResult> Edit(UpdateDepartmentsCommand updateDepartmentsCommand)

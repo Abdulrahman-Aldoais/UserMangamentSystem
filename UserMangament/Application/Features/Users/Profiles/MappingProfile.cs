@@ -18,8 +18,6 @@ namespace Application.Features.Users.Profiles
             CreateMap<GetUserOutput, UpdateUserCommand>().ReverseMap();
             CreateMap<User, DeleteUserCommand>().ReverseMap();
 
-
-
         }
     }
 }

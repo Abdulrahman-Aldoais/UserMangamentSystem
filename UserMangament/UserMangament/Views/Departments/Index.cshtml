@@ -70,6 +70,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th> رقم القسم</th>
                             <th>اسم القسم</th>
                             <th>إجراء</th>
                         </tr>
@@ -78,6 +79,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>@item.Id</td>
                                 <td>@item.Name</td>
                                 <td class="action-buttons">
                                     <a asp-controller="Departments" asp-action="DisplayUserInformation" asp-route-Id="@item.Id" class="btn btn-info view-button"><i class='bx bx-detail'></i></a>

@@ -111,7 +111,7 @@
                                 <td class="action-buttons">
                                     <a asp-controller="Users" asp-action="DisplayUserInformation" asp-route-Id="@item.Id" class="btn btn-info view-button"><i class='bx bx-detail'></i></a>
                                     <a asp-controller="Users" asp-action="EditUser" asp-route-Id="@item.Id" class="btn btn-primary edit-button"><i class='bx bx-edit'></i></a>
-                                    <a href="/user/delete/@item.Id" class="btn btn-danger delete-button"><i class='bx bx-trash'></i></a>
+                                    <a asp-controller="Users" asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger delete-button"><i class='bx bx-trash'></i></a>
                                 </td>
                             </tr>
                         }

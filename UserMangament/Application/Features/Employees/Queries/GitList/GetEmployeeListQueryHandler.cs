@@ -21,25 +21,31 @@ namespace Application.Features.Employees.Queries.GitList
         {
             var respons = new BaseCommandResponse<List<GetEmployeeListOutput>>();
 
-            var result = _employeeReadRepositoty.GetAll().Include(x => x.Department);
-            var getAllEmpolyee = result.Select(x => new GetEmployeeListOutput
+            var result = await _employeeReadRepositoty.GetAll()
+                                         .Include(x => x.Department)
+                                         .Include(h => h.WorkingHour)
+                                         .ToListAsync();
+
+            var allEmplyees = result.Select(x => new GetEmployeeListOutput
             {
                 Id = x.Id,
                 Name = x.Name,
                 Phone = x.Phone,
                 DepartmentName = x.Department.Name,
-                HireDate = x.HireDate.ToShortDateString(),
+                HireDate = x.HireDate != default ? x.HireDate.ToShortDateString() : null,
                 JobTitle = x.JobTitle,
                 Salary = x.Salary,
                 WorkingHour = x.WorkingHour.Hours,
-            });
-            var mappingResult = _mapper.Map<List<GetEmployeeListOutput>>(getAllEmpolyee);
+            }).ToList();
 
-            if (!getAllEmpolyee.Any())
+
+            var empMapp = _mapper.Map<List<GetEmployeeListOutput>>(allEmplyees);
+
+            if (result == null)
             {
                 respons.Success = false;
                 respons.StatusCode = System.Net.HttpStatusCode.BadRequest;
-                respons.Data = new List<GetEmployeeListOutput>();
+                respons.Data = null;
                 respons.Errors = null;
                 respons.Message = SharedResourcesKeys.BadRequest;
 
@@ -47,10 +53,10 @@ namespace Application.Features.Employees.Queries.GitList
             }
             else
             {
-                respons.Data = mappingResult;
+                respons.Success = true;
+                respons.Data = empMapp;
                 respons.StatusCode = System.Net.HttpStatusCode.OK;
                 respons.Message = SharedResourcesKeys.Success;
-                respons.Success = true;
                 respons.Errors = null;
 
 

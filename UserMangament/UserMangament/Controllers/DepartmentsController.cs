@@ -8,11 +8,9 @@ using AutoMapper;
 using Core.Application.Responses;
 using Domain.Resources;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
-using UserMangament.Models;
 
 namespace UserMangament.Controllers
 {
@@ -34,20 +32,10 @@ namespace UserMangament.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = new BaseCommandResponse<List<GetListDepartmentOutput>>();
-            HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Depatrment/GetDepartmentList");
-            if (responseJson.IsSuccessStatusCode)
+            var responseJson = await SendGetRequestAsync<List<GetListDepartmentOutput>>($"https://localhost:7289/api/Depatrment/GetDepartmentList");
+            if (responseJson.Success)
             {
-                string data = await responseJson.Content.ReadAsStringAsync();
-                List<GetListDepartmentOutput> userInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<List<GetListDepartmentOutput>>>(data).Data;
-                var resultMapp = _mapper.Map<List<GetListDepartmentOutput>>(userInfo);
-                response.Data = resultMapp;
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-                response.Success = true;
-                response.Message = SharedResourcesKeys.Success;
-                response.Errors = null;
-                return View(resultMapp);
-
+                return View(_mapper.Map<List<GetListDepartmentOutput>>(responseJson.Data));
             }
             return View();
         }
@@ -61,114 +49,45 @@ namespace UserMangament.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddDepartment(CreateDepartmentsCommand getUserOutput)
+        public async Task<IActionResult> AddDepartment(CreateDepartmentsCommand getDepartmentOutput)
         {
 
-            var response = new BaseCommandResponse<GetDepartmentOutput>();
+
             CreateDepartmentsCommand departmentsCommand = new CreateDepartmentsCommand
             {
-                Name = getUserOutput.Name,
+                Name = getDepartmentOutput.Name,
             };
-            string data = JsonSerializer.Serialize(departmentsCommand);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage responseJson = await _httpClient.PostAsync("https://localhost:7289/api/Depatrment/CreateDepartment", content);
-            if (responseJson.IsSuccessStatusCode)
-            {
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-                response.Success = true;
-                response.Message = SharedResourcesKeys.Success;
-                response.Errors = null;
-            }
+            var response = await SendPostRequestAsync<GetDepartmentOutput>("https://localhost:7289/api/Depatrment/CreateDepartment", departmentsCommand);
 
-            return await NewResult(response, () =>
-        {
             if (response.Success)
             {
-
                 NotifySuccess(response.Message);
                 return RedirectToAction("Index", "Departments");
             }
             else
             {
                 NotifyError(response.Errors, response.Message);
-                return View(getUserOutput);
+                return View(getDepartmentOutput);
             }
-        });
         }
 
-        //[HttpGet]
-        ////[Route("user/edit")]
-        //public async Task<IActionResult> EditDepartment(GetDepartmentQuery getDepartment)
-        //{
-        //    if (getDepartment.Id == 0) RedirectToAction("Index", "Departments");
-
-        //    var response = new BaseCommandResponse<GetDepartmentOutput>();
-        //    HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Depatrment/GetDepartmentList");
-        //    if (responseJson.IsSuccessStatusCode)
-        //    {
-        //        string data = await responseJson.Content.ReadAsStringAsync();
-        //        GetDepartmentOutput userInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(data).Data;
-        //        var resultMapp = _mapper.Map<GetDepartmentOutput>(userInfo);
-        //        response.StatusCode = System.Net.HttpStatusCode.OK;
-        //        response.Success = true;
-        //        response.Message = SharedResourcesKeys.Success;
-        //        response.Errors = null;
-
-        //        return View(resultMapp);
-
-        //    }
-        //    else
-        //    {
-        //        var modle = new GetDepartmentOutput
-        //        {
-        //            Id = resu.Data.Id,
-        //            Name = result.Data.Name
-        //        };
-
-        //        return View(modle);
-        //    }
-        //    else
-        //    {
-        //        NotifyError(result.Errors, result.Message);
-        //        return RedirectToAction("Index", "Departments");
-        //    }
-        //}
         [HttpGet]
-        public async Task<IActionResult> EditDepartment(GetDepartmentQuery getDepartment)
+        public async Task<IActionResult> EditDepartment(GetDepartmentQuery query)
         {
-            if (getDepartment.Id == 0)
+            if (query.Id == 0)
             {
                 return RedirectToAction("Index", "Departments");
             }
-            GetDepartmentQuery getId = new GetDepartmentQuery
+
+            var response = await SendGetRequestAsync<GetDepartmentOutput>($"https://localhost:7289/api/Depatrment/GetDepartment/{query.Id}");
+
+            if (response.Success)
             {
-                Id = getDepartment.Id,
-            };
-            var response = new BaseCommandResponse<GetDepartmentOutput>();
-            HttpResponseMessage responseJson = await _httpClient.GetAsync("https://localhost:7289/api/Department/GetDepartment/" + getId.Id);
-
-            if (responseJson.IsSuccessStatusCode)
-            {
-                string data = await responseJson.Content.ReadAsStringAsync();
-                BaseCommandResponse<GetDepartmentOutput> result = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(data);
-
-                GetDepartmentOutput userInfo = result.Data;
-                var resultMapped = _mapper.Map<GetDepartmentOutput>(userInfo);
-
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-                response.Success = true;
-                response.Message = SharedResourcesKeys.Success;
-                response.Errors = null;
-
-                return View(resultMapped);
+                return View(_mapper.Map<GetDepartmentOutput>(response.Data));
             }
             else
             {
-                var errorData = await responseJson.Content.ReadAsStringAsync();
-                BaseCommandResponse<GetDepartmentOutput> errorResult = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<GetDepartmentOutput>>(errorData);
-
-                NotifyError(errorResult?.Errors, errorResult?.Message);
-
+                NotifyError(response.Errors, response.Message);
                 return RedirectToAction("Index", "Departments");
             }
         }
@@ -177,22 +96,13 @@ namespace UserMangament.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDepartment(GetDepartmentOutput updateDepartment)
         {
-
-            var response = new BaseCommandResponse<GetDepartmentOutput>();
-            UpdateDepartmentsCommand departmentsCommand = new UpdateDepartmentsCommand
+            var departmentsCommand = new UpdateDepartmentsCommand
             {
+                Id = updateDepartment.Id,
                 Name = updateDepartment.Name,
             };
-            string data = JsonSerializer.Serialize(departmentsCommand);
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
-            HttpResponseMessage responseJson = await _httpClient.PostAsync("https://localhost:7289/api/Depatrment/UpdateDepartment", content);
-            if (responseJson.IsSuccessStatusCode)
-            {
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-                response.Success = true;
-                response.Message = SharedResourcesKeys.Success;
-                response.Errors = null;
-            }
+
+            var response = await SendPostRequestAsync<GetDepartmentOutput>("https://localhost:7289/api/Depatrment/UpdateDepartment", departmentsCommand);
 
             if (response.Success)
             {
@@ -206,6 +116,68 @@ namespace UserMangament.Controllers
             }
         }
 
+        private async Task<BaseCommandResponse<T>> SendPostRequestAsync<T>(string url, object data)
+        {
+            var response = new BaseCommandResponse<T>();
+            string jsonData = System.Text.Json.JsonSerializer.Serialize(data);
+            StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage responseJson = await _httpClient.PostAsync(url, content);
+
+            if (responseJson.IsSuccessStatusCode)
+            {
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+            }
+            else
+            {
+                string errorData = await responseJson.Content.ReadAsStringAsync();
+                try
+                {
+                    response = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<T>>(errorData);
+                }
+                catch (JsonReaderException ex)
+                {
+
+                    Console.WriteLine($"خطأ أثناء تحليل JSON: {ex.Message}");
+                }
+            }
+
+            return response;
+        }
+
+        private async Task<BaseCommandResponse<T>> SendGetRequestAsync<T>(string url)
+        {
+            var response = new BaseCommandResponse<T>();
+            HttpResponseMessage responseJson = await _httpClient.GetAsync(url);
+
+            if (responseJson.IsSuccessStatusCode)
+            {
+                string data = await responseJson.Content.ReadAsStringAsync();
+                response = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<T>>(data);
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                response.Success = true;
+                response.Message = SharedResourcesKeys.Success;
+                response.Errors = null;
+            }
+            else
+            {
+                var errorData = await responseJson.Content.ReadAsStringAsync();
+                try
+                {
+                    response = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseCommandResponse<T>>(errorData);
+                }
+                catch (JsonReaderException ex)
+                {
+
+                    Console.WriteLine($"Error while parsing JSON: {ex.Message}");
+                }
+            }
+
+            return response;
+        }
         [HttpGet]
         public async Task<IActionResult> DisplayDepartmentInformation(GetUserQuery getUser)
         {
@@ -226,15 +198,6 @@ namespace UserMangament.Controllers
             }
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

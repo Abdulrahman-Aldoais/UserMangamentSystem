@@ -1,4 +1,6 @@
-﻿using Application.Repositories.UserRepository;
+﻿using Application.Features.Users.Dtos.Get;
+using Application.Repositories.UserRepository;
+using AutoMapper;
 using Core.Application.Responses;
 using Domain.Resources;
 using MediatR;
@@ -9,10 +11,12 @@ namespace Application.Features.Users.Commands.Delete
     {
         private readonly IUserReadRepository _userReadRepository;
         private readonly IUserWriteRepository _userWriteRepository;
-        public DeleteUserCommandHabdler(IUserReadRepository userReadRepository, IUserWriteRepository userWriteRepository)
+        private readonly IMapper _mapper;
+        public DeleteUserCommandHabdler(IUserReadRepository userReadRepository, IUserWriteRepository userWriteRepository, IMapper mapper)
         {
             _userReadRepository = userReadRepository;
             _userWriteRepository = userWriteRepository;
+            _mapper = mapper;
 
         }
         public async Task<BaseCommandResponse<int>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -33,9 +37,10 @@ namespace Application.Features.Users.Commands.Delete
 
                 var getUserFromDataBase = await _userReadRepository.GetAsync(x => x.Id.Equals(request.Id));
                 await _userWriteRepository.DeleteAsync(getUserFromDataBase);
+                var userMapp = _mapper.Map<GetUserOutput>(getUserFromDataBase);
 
-                response.Id = getUserFromDataBase.Id;
-                response.Data = getUserFromDataBase.Id;
+                response.Id = userMapp.Id;
+                response.Data = userMapp.Id;
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 response.Success = true;
                 response.Message = SharedResourcesKeys.Deleted;

@@ -52,7 +52,7 @@
     @*<input type="hidden" asp-for="CreatedBy" name="CreatedBy" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" />*@
 
 <div class="form-group">
-    <label for="username">اسم المستخدم:</label>
+    <label for="username"> الاسم:</label>
     <input type="text" asp-for="Name">
     <span class="text-danger" asp-validation-for="Name"></span>
 </div>
