@@ -2,6 +2,7 @@
 using Application.Features.Departments.Commands.Update;
 using Application.Features.Departments.Dtos.Get;
 using Application.Features.Departments.Dtos.GetList;
+using Application.Features.Departments.Queries.GitList;
 using AutoMapper;
 using Domain.Entities;
 

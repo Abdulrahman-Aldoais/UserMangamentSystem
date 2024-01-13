@@ -57,7 +57,7 @@ namespace UserMangament.Controllers
 
             if (currentTime > _departmentsCacheExpirationTime || !_cachedDepartments.Any())
             {
-                var response = await SendGetRequestAsync<List<GetDepartmentListQuery>>($"https://localhost:7289/api/Depatrment/GetDepartmentList");
+                var response = await SendGetRequestAsync<List<GetListDepartmentOutput>>($"https://localhost:7289/api/Depatrment/GetDepartmentList");
                 if (response.Success)
                 {
                     _cachedDepartments = _mapper.Map<List<GetListDepartmentOutput>>(response.Data);

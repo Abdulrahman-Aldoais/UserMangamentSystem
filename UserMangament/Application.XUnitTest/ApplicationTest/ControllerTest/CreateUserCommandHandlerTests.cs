@@ -68,6 +68,8 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
         {
             // Arrange
             var mockMediator = new Mock<IMediator>();
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+
 
             var mockUserService = new Mock<IUserService>();
             var mockUserReadRepository = new Mock<IUserReadRepository>();
@@ -79,7 +81,7 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
             var createUserCommandHandler = new CreateUserCommandHandler(
                 mockUserService.Object,
                 mockUserReadRepository.Object,
-                mockMapper.Object
+                 mockMapper.Object
             );
 
             var validCreateUserCommand = new CreateUserCommand
@@ -100,7 +102,7 @@ namespace Application.XUnitTest.ApplicationTest.ControllerTest
             // Act
             var result = await createUserCommandHandler.Handle(validCreateUserCommand, cancellationToken);
 
-            var controller = new UsersController(_contextAccessor.Object);
+            //var controller = new UsersController(_contextAccessor.Object,);
 
 
             //var resultController = await controller.AddUser(validCreateUserCommand) as RedirectToActionResult;

@@ -22,7 +22,7 @@ namespace Application.Features.Users.Commands.Delete
         public async Task<BaseCommandResponse<int>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse<int>();
-            var validator = new DeleteUserCommandHabdlerValidation(_userReadRepository);
+            var validator = new DeletUserCommandHabdlerValidation(_userReadRepository);
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
             if (!validatorResult.IsValid)
             {

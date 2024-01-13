@@ -7,49 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Roles\Commands\Create\" />
-    <Folder Include="Features\Roles\Commands\Update\" />
-    <Folder Include="Features\Roles\Dtos\GetList\" />
-    <Folder Include="Features\Roles\Dtos\Get\" />
-    <Folder Include="Features\Roles\Profiles\" />
-    <Folder Include="Features\Roles\Queries\GitList\" />
-    <Folder Include="Features\Roles\Queries\Git\" />
+    <Compile Remove="Features\Attendances\**" />
+    <Compile Remove="Features\EmpHolidaysOrder\**" />
+    <Compile Remove="Features\Employees\Commands\Update\**" />
+    <Compile Remove="Features\HolidaysTypes\**" />
+    <Compile Remove="Features\Roles\**" />
+    <Compile Remove="Features\Salarys\**" />
+    <EmbeddedResource Remove="Features\Attendances\**" />
+    <EmbeddedResource Remove="Features\EmpHolidaysOrder\**" />
+    <EmbeddedResource Remove="Features\Employees\Commands\Update\**" />
+    <EmbeddedResource Remove="Features\HolidaysTypes\**" />
+    <EmbeddedResource Remove="Features\Roles\**" />
+    <EmbeddedResource Remove="Features\Salarys\**" />
+    <None Remove="Features\Attendances\**" />
+    <None Remove="Features\EmpHolidaysOrder\**" />
+    <None Remove="Features\Employees\Commands\Update\**" />
+    <None Remove="Features\HolidaysTypes\**" />
+    <None Remove="Features\Roles\**" />
+    <None Remove="Features\Salarys\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Features\WorkingHours\Commands\Create\" />
     <Folder Include="Features\WorkingHours\Commands\Update\" />
     <Folder Include="Features\WorkingHours\Dtos\Get\" />
     <Folder Include="Features\WorkingHours\Queries\Git\" />
-    <Folder Include="Features\Salarys\Commands\Create\" />
-    <Folder Include="Features\Salarys\Commands\Update\" />
-    <Folder Include="Features\Salarys\Dtos\GetList\" />
-    <Folder Include="Features\Salarys\Dtos\Get\" />
-    <Folder Include="Features\Salarys\Profiles\" />
-    <Folder Include="Features\Salarys\Queries\GitList\" />
-    <Folder Include="Features\Salarys\Queries\Git\" />
     <Folder Include="Features\Jobs\Commands\Create\" />
     <Folder Include="Features\Jobs\Commands\Update\" />
     <Folder Include="Features\Jobs\Queries\Git\" />
-    <Folder Include="Features\HolidaysTypes\Commands\Create\" />
-    <Folder Include="Features\HolidaysTypes\Commands\Update\" />
-    <Folder Include="Features\HolidaysTypes\Dtos\GetList\" />
-    <Folder Include="Features\HolidaysTypes\Dtos\Get\" />
-    <Folder Include="Features\HolidaysTypes\Profiles\" />
-    <Folder Include="Features\HolidaysTypes\Queries\GitList\" />
-    <Folder Include="Features\HolidaysTypes\Queries\Git\" />
-    <Folder Include="Features\Employees\Commands\Update\" />
-    <Folder Include="Features\EmpHolidaysOrder\Commands\Create\" />
-    <Folder Include="Features\EmpHolidaysOrder\Commands\Update\" />
-    <Folder Include="Features\EmpHolidaysOrder\Dtos\GetList\" />
-    <Folder Include="Features\EmpHolidaysOrder\Dtos\Get\" />
-    <Folder Include="Features\EmpHolidaysOrder\Profiles\" />
-    <Folder Include="Features\EmpHolidaysOrder\Queries\GitList\" />
-    <Folder Include="Features\EmpHolidaysOrder\Queries\Git\" />
-    <Folder Include="Features\Attendances\Commands\Create\" />
-    <Folder Include="Features\Attendances\Commands\Update\" />
-    <Folder Include="Features\Attendances\Dtos\GetList\" />
-    <Folder Include="Features\Attendances\Dtos\Get\" />
-    <Folder Include="Features\Attendances\Profiles\" />
-    <Folder Include="Features\Attendances\Queries\GitList\" />
-    <Folder Include="Features\Attendances\Queries\Git\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,10 +3,10 @@ using FluentValidation;
 
 namespace Application.Features.Users.Commands.Delete
 {
-    public class DeleteUserCommandHabdlerValidation : AbstractValidator<DeleteUserCommand>
+    public class DeletUserCommandHabdlerValidation : AbstractValidator<DeleteUserCommand>
     {
         private readonly IUserReadRepository _userReadRepository;
-        public DeleteUserCommandHabdlerValidation(IUserReadRepository userReadRepository)
+        public DeletUserCommandHabdlerValidation(IUserReadRepository userReadRepository)
         {
             _userReadRepository = userReadRepository;
 
